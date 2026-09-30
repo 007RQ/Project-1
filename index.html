@@ -330,8 +330,10 @@ main {
 .lesson-time {
   display: grid;
   align-content: center;
+  justify-items: end;
   gap: 3px;
   min-width: 0;
+  text-align: right;
 }
 
 .lesson-time strong {
@@ -838,8 +840,6 @@ main {
 
   <main>
 
-    <!-- РАСПИСАНИЕ -->
-
     <section
       id="schedule-view"
       class="view active"
@@ -921,8 +921,6 @@ main {
     </section>
 
 
-    <!-- ДОМАШНЕЕ ЗАДАНИЕ -->
-
     <section
       id="homework-view"
       class="view"
@@ -963,8 +961,6 @@ main {
 
     </section>
 
-
-    <!-- НАСТРОЙКИ -->
 
     <section
       id="settings-view"
@@ -1098,8 +1094,6 @@ main {
   </main>
 
 
-  <!-- НИЖНЯЯ НАВИГАЦИЯ -->
-
   <nav
     class="tabbar"
     aria-label="Основная навигация"
@@ -1142,13 +1136,7 @@ main {
 
   "use strict";
 
-
-  /* =========================================================
-     ОСНОВНЫЕ НАСТРОЙКИ
-  ========================================================= */
-
   const STORAGE_KEY = "ios-school-schedule-v1";
-
 
   const weekdays = [
     {
@@ -1178,78 +1166,51 @@ main {
     }
   ];
 
-
   const state = {
-
     activeView: "schedule-view",
-
     settingsWeek: "current",
-
     data: loadData()
-
   };
-
 
   const $ = (
     selector,
     root = document
   ) => root.querySelector(selector);
 
-
   const $$ = (
     selector,
     root = document
   ) => [...root.querySelectorAll(selector)];
 
-
-  /* =========================================================
-     ПУСТЫЕ ДАННЫЕ
-  ========================================================= */
-
   function emptySchedule() {
 
     return weekdays.reduce(
       (acc, day) => {
-
         acc[day.key] = [];
-
         return acc;
-
       },
       {}
     );
 
   }
-
 
   function emptyHomework() {
 
     return weekdays.reduce(
       (acc, day) => {
-
         acc[day.key] = "";
-
         return acc;
-
       },
       {}
     );
 
   }
 
-
   function clone(value) {
-
     return JSON.parse(
       JSON.stringify(value)
     );
-
   }
-
-
-  /* =========================================================
-     НОМЕР НЕДЕЛИ
-  ========================================================= */
 
   function isoWeekKey(date) {
 
@@ -1291,7 +1252,6 @@ main {
 
   }
 
-
   function weekKeyByOffset(offset) {
 
     const now = new Date();
@@ -1303,11 +1263,6 @@ main {
     return isoWeekKey(now);
 
   }
-
-
-  /* =========================================================
-     БАЗОВЫЕ ДАННЫЕ
-  ========================================================= */
 
   function baseData() {
 
@@ -1340,11 +1295,6 @@ main {
 
   }
 
-
-  /* =========================================================
-     ЗАГРУЗКА
-  ========================================================= */
-
   function loadData() {
 
     try {
@@ -1358,10 +1308,8 @@ main {
         return baseData();
       }
 
-
       const parsed =
         JSON.parse(raw);
-
 
       if (
         !parsed ||
@@ -1370,15 +1318,12 @@ main {
         return baseData();
       }
 
-
       parsed.weeks =
         parsed.weeks || {};
-
 
       parsed.homework =
         parsed.homework || {};
 
-
       ensureWeek(
         weekKeyByOffset(0),
         parsed
@@ -1389,7 +1334,6 @@ main {
         parsed
       );
 
-
       ensureHomeworkWeek(
         weekKeyByOffset(0),
         parsed
@@ -1399,7 +1343,6 @@ main {
         weekKeyByOffset(1),
         parsed
       );
-
 
       return parsed;
 
@@ -1411,23 +1354,15 @@ main {
 
   }
 
-
-  /* =========================================================
-     ПРОВЕРКА НЕДЕЛЕЙ
-  ========================================================= */
-
   function ensureWeek(
     key,
     target = state.data
   ) {
 
     if (!target.weeks[key]) {
-
       target.weeks[key] =
         emptySchedule();
-
     }
-
 
     weekdays.forEach(day => {
 
@@ -1436,15 +1371,12 @@ main {
           target.weeks[key][day.key]
         )
       ) {
-
         target.weeks[key][day.key] = [];
-
       }
 
     });
 
   }
-
 
   function ensureHomeworkWeek(
     key,
@@ -1452,12 +1384,9 @@ main {
   ) {
 
     if (!target.homework[key]) {
-
       target.homework[key] =
         emptyHomework();
-
     }
-
 
     weekdays.forEach(day => {
 
@@ -1465,19 +1394,12 @@ main {
         typeof target.homework[key][day.key]
         !== "string"
       ) {
-
         target.homework[key][day.key] = "";
-
       }
 
     });
 
   }
-
-
-  /* =========================================================
-     СОХРАНЕНИЕ
-  ========================================================= */
 
   function saveData() {
 
@@ -1487,11 +1409,6 @@ main {
     );
 
   }
-
-
-  /* =========================================================
-     НОРМАЛИЗАЦИЯ УРОКА
-  ========================================================= */
 
   function normalizedLesson(lesson) {
 
@@ -1525,11 +1442,6 @@ main {
 
   }
 
-
-  /* =========================================================
-     ПРОВЕРКА НАСТРОЙКИ
-  ========================================================= */
-
   function isConfigured() {
 
     const current =
@@ -1537,7 +1449,6 @@ main {
         weekKeyByOffset(0)
       ] ||
       emptySchedule();
-
 
     return Object.values(current)
       .some(list =>
@@ -1556,11 +1467,6 @@ main {
 
   }
 
-
-  /* =========================================================
-     ДАТА / ВРЕМЯ
-  ========================================================= */
-
   function formatClock(date) {
 
     return new Intl.DateTimeFormat(
@@ -1574,7 +1480,6 @@ main {
     ).format(date);
 
   }
-
 
   function formatDate(date) {
 
@@ -1590,7 +1495,6 @@ main {
 
   }
 
-
   function formatShortDate(date) {
 
     return new Intl.DateTimeFormat(
@@ -1602,7 +1506,6 @@ main {
     ).format(date);
 
   }
-
 
   function currentDayKey(
     date = new Date()
@@ -1617,7 +1520,6 @@ main {
 
   }
 
-
   function minutesFromTime(value) {
 
     if (
@@ -1625,7 +1527,6 @@ main {
     ) {
       return null;
     }
-
 
     const [
       h,
@@ -1635,7 +1536,6 @@ main {
         .split(":")
         .map(Number);
 
-
     if (
       h > 23 ||
       m > 59
@@ -1643,15 +1543,9 @@ main {
       return null;
     }
 
-
     return h * 60 + m;
 
   }
-
-
-  /* =========================================================
-     СОРТИРОВКА
-  ========================================================= */
 
   function sortLessons(list) {
 
@@ -1669,7 +1563,6 @@ main {
             b.start
           );
 
-
         if (
           aMin === null &&
           bMin === null
@@ -1677,27 +1570,19 @@ main {
           return 0;
         }
 
-
         if (aMin === null) {
           return 1;
         }
 
-
         if (bMin === null) {
           return -1;
         }
-
 
         return aMin - bMin;
 
       });
 
   }
-
-
-  /* =========================================================
-     ВСПОМОГАТЕЛЬНЫЕ
-  ========================================================= */
 
   function setText(
     id,
@@ -1713,135 +1598,89 @@ main {
 
   }
 
-
   function escapeHtml(value) {
 
     return String(value)
-
-      .replaceAll(
-        "&",
-        "&amp;"
-      )
-
-      .replaceAll(
-        "<",
-        "&lt;"
-      )
-
-      .replaceAll(
-        ">",
-        "&gt;"
-      )
-
-      .replaceAll(
-        '"',
-        "&quot;"
-      )
-
-      .replaceAll(
-        "'",
-        "&#039;"
-      );
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
 
   }
-
 
   function escapeAttr(value) {
-
     return escapeHtml(value);
-
   }
-
-
-  /* =========================================================
-     РАСПИСАНИЕ
-  ========================================================= */
 
   function refreshClock() {
 
     const now =
       new Date();
 
-
     setText(
       "clock",
       formatClock(now)
     );
-
 
     setText(
       "date",
       formatDate(now)
     );
 
-
     const week =
       isoWeekKey(now);
-
 
     setText(
       "week-label",
       `НЕДЕЛЯ ${week.split("-")[0]} · ${week.split("-")[1]}`
     );
 
-
     renderSchedule();
 
   }
-
 
   function renderSchedule() {
 
     const now =
       new Date();
 
-
     const dayKey =
       state.selectedDay ||
       currentDayKey(now);
 
-
     const isWeekend =
       dayKey > 5;
-
 
     const weekendState =
       $("#weekend-state");
 
-
     const scheduleHeader =
       $("#schedule-header");
-
 
     const scheduleList =
       $("#schedule-list");
 
-
     const noLessons =
       $("#no-lessons");
 
-
     const banner =
       $("#setup-banner");
-
 
     banner.classList.toggle(
       "hidden",
       isConfigured()
     );
 
-
     weekendState.classList.toggle(
       "hidden",
       !isWeekend
     );
 
-
     scheduleHeader.classList.toggle(
       "hidden",
       isWeekend
     );
-
 
     scheduleList.innerHTML = "";
 
@@ -1849,16 +1688,13 @@ main {
       "hidden"
     );
 
-
     renderDaySwitcher(
       currentDayKey(now)
     );
 
-
     if (isWeekend) {
       return;
     }
-
 
     const week =
       state.data.weeks[
@@ -1866,31 +1702,26 @@ main {
       ] ||
       emptySchedule();
 
-
     const day =
       weekdays.find(
         item =>
           item.key === dayKey
       );
 
-
     const lessons =
       sortLessons(
         week[dayKey] || []
       );
-
 
     setText(
       "day-name",
       day.full
     );
 
-
     setText(
       "day-date",
       formatShortDate(now)
     );
-
 
     if (!lessons.length) {
 
@@ -1902,12 +1733,10 @@ main {
 
     }
 
-
     const nowMinutes =
       now.getHours() * 60 +
       now.getMinutes() +
       now.getSeconds() / 60;
-
 
     lessons.forEach(
       (lesson, index) => {
@@ -1917,12 +1746,10 @@ main {
             lesson.start
           );
 
-
         const end =
           minutesFromTime(
             lesson.end
           );
-
 
         const isCurrent =
           start !== null &&
@@ -1930,17 +1757,14 @@ main {
           nowMinutes >= start &&
           nowMinutes < end;
 
-
         const isPast =
           end !== null &&
           nowMinutes >= end;
-
 
         const card =
           document.createElement(
             "article"
           );
-
 
         card.className =
           `lesson-card${
@@ -1953,17 +1777,13 @@ main {
               : ""
           }`;
 
-
         const range =
           lesson.start &&
           lesson.end
-
             ? `${lesson.start}–${lesson.end}`
-
             : lesson.start ||
               lesson.end ||
               "Время не задано";
-
 
         card.innerHTML = `
 
@@ -1982,7 +1802,6 @@ main {
             </span>
 
           </div>
-
 
           <div class="lesson-info">
 
@@ -2003,16 +1822,13 @@ main {
 
             </div>
 
-
             ${
               lesson.note
-
                 ? `<p class="lesson-note">
                     ${escapeHtml(
                       lesson.note
                     )}
                    </p>`
-
                 : `<p class="lesson-note">
                     ${escapeHtml(
                       range
@@ -2024,7 +1840,6 @@ main {
 
         `;
 
-
         scheduleList.appendChild(
           card
         );
@@ -2034,11 +1849,6 @@ main {
 
   }
 
-
-  /* =========================================================
-     ПЕРЕКЛЮЧЕНИЕ ДНЕЙ
-  ========================================================= */
-
   function renderDaySwitcher(
     todayKey = currentDayKey()
   ) {
@@ -2046,14 +1856,11 @@ main {
     const wrap =
       $("#day-switcher");
 
-
     if (!wrap) {
       return;
     }
 
-
     wrap.innerHTML = "";
-
 
     weekdays.forEach(day => {
 
@@ -2062,9 +1869,7 @@ main {
           "button"
         );
 
-
       button.type = "button";
-
 
       button.className =
         `day-switch${
@@ -2078,10 +1883,8 @@ main {
             : ""
         }`;
 
-
       button.textContent =
         day.short;
-
 
       button.addEventListener(
         "click",
@@ -2095,7 +1898,6 @@ main {
         }
       );
 
-
       wrap.appendChild(
         button
       );
@@ -2104,28 +1906,19 @@ main {
 
   }
 
-
-  /* =========================================================
-     ДОМАШНЕЕ ЗАДАНИЕ
-  ========================================================= */
-
   function renderHomework() {
 
     const key =
       weekKeyByOffset(0);
 
-
     ensureHomeworkWeek(
       key
     );
 
-
     const wrap =
       $("#homework-list");
 
-
     wrap.innerHTML = "";
-
 
     weekdays.forEach(day => {
 
@@ -2134,10 +1927,8 @@ main {
           "section"
         );
 
-
       card.className =
         "homework-day-card";
-
 
       card.innerHTML = `
 
@@ -2158,7 +1949,6 @@ main {
 
       `;
 
-
       wrap.appendChild(
         card
       );
@@ -2167,17 +1957,14 @@ main {
 
   }
 
-
   function saveHomework() {
 
     const key =
       weekKeyByOffset(0);
 
-
     ensureHomeworkWeek(
       key
     );
-
 
     $$(".homework-input")
       .forEach(input => {
@@ -2193,15 +1980,12 @@ main {
 
       });
 
-
     saveData();
-
 
     setText(
       "homework-status",
       "Сохранено"
     );
-
 
     setTimeout(
       () => {
@@ -2217,30 +2001,20 @@ main {
 
   }
 
-
-  /* =========================================================
-     НАСТРОЙКИ
-  ========================================================= */
-
   function weekKeyForSettings() {
 
     return state.settingsWeek === "next"
-
       ? weekKeyByOffset(1)
-
       : weekKeyByOffset(0);
 
   }
-
 
   function renderSettings() {
 
     const key =
       weekKeyForSettings();
 
-
     ensureWeek(key);
-
 
     setText(
       "settings-week-title",
@@ -2249,7 +2023,6 @@ main {
         : "Текущая неделя"
     );
 
-
     $$(".segment")
       .forEach(button => {
 
@@ -2257,12 +2030,10 @@ main {
           button.dataset.week ===
           state.settingsWeek;
 
-
         button.classList.toggle(
           "active",
           active
         );
-
 
         button.setAttribute(
           "aria-selected",
@@ -2273,7 +2044,6 @@ main {
 
       });
 
-
     $("#setup-help")
       .classList.toggle(
         "hidden",
@@ -2281,17 +2051,13 @@ main {
         state.settingsWeek === "next"
       );
 
-
     const container =
       $("#settings-days");
 
-
     container.innerHTML = "";
-
 
     const week =
       state.data.weeks[key];
-
 
     weekdays.forEach(day => {
 
@@ -2300,15 +2066,12 @@ main {
           "section"
         );
 
-
       panel.className =
         "day-panel";
-
 
       const count =
         (week[day.key] || [])
           .length;
-
 
       panel.innerHTML = `
 
@@ -2337,12 +2100,10 @@ main {
 
         </div>
 
-
         <div
           class="lesson-editor-list"
           data-day="${day.key}"
         ></div>
-
 
         <button
           type="button"
@@ -2354,10 +2115,8 @@ main {
 
       `;
 
-
       const list =
         $(".lesson-editor-list", panel);
-
 
       (week[day.key] || [])
         .forEach(
@@ -2373,7 +2132,6 @@ main {
           }
         );
 
-
       container.appendChild(
         panel
       );
@@ -2381,11 +2139,6 @@ main {
     });
 
   }
-
-
-  /* =========================================================
-     РЕДАКТОР УРОКА
-  ========================================================= */
 
   function createEditorRow(
     lesson,
@@ -2397,23 +2150,19 @@ main {
         lesson
       );
 
-
     const row =
       document.createElement(
         "div"
       );
 
-
     row.className =
       "editor-row";
-
 
     row.innerHTML = `
 
       <div class="row-number">
         ${index + 1}
       </div>
-
 
       <div class="field subject-wrap">
 
@@ -2434,7 +2183,6 @@ main {
 
       </div>
 
-
       <div class="field time-wrap">
 
         <label>
@@ -2450,7 +2198,6 @@ main {
         >
 
       </div>
-
 
       <div class="field end-wrap">
 
@@ -2468,7 +2215,6 @@ main {
 
       </div>
 
-
       <div class="delete-wrap">
 
         <button
@@ -2480,7 +2226,6 @@ main {
         </button>
 
       </div>
-
 
       <div class="field note-wrap">
 
@@ -2499,7 +2244,6 @@ main {
       </div>
 
     `;
-
 
     row
       .querySelector(
@@ -2522,28 +2266,19 @@ main {
         }
       );
 
-
     return row;
 
   }
-
-
-  /* =========================================================
-     СОБОР ФОРМЫ
-  ========================================================= */
 
   function collectSettingsForm() {
 
     const key =
       weekKeyForSettings();
 
-
     ensureWeek(key);
-
 
     const result =
       emptySchedule();
-
 
     $$(".day-panel")
       .forEach(panel => {
@@ -2556,14 +2291,11 @@ main {
             ).dataset.day
           );
 
-
         const rows =
           $$(".editor-row", panel);
 
-
         result[dayKey] =
           rows
-
             .map(row =>
               normalizedLesson({
 
@@ -2585,7 +2317,6 @@ main {
 
               })
             )
-
             .filter(lesson =>
               lesson.subject ||
               lesson.start ||
@@ -2595,40 +2326,29 @@ main {
 
       });
 
-
     return result;
 
   }
-
-
-  /* =========================================================
-     СОХРАНЕНИЕ НАСТРОЕК
-  ========================================================= */
 
   function saveSettings() {
 
     const key =
       weekKeyForSettings();
 
-
     state.data.weeks[key] =
       collectSettingsForm();
-
 
     state.data.lastActiveWeek =
       isoWeekKey(
         new Date()
       );
 
-
     saveData();
-
 
     setText(
       "save-status",
       "Сохранено"
     );
-
 
     setTimeout(
       () => {
@@ -2642,17 +2362,11 @@ main {
       1600
     );
 
-
     renderSchedule();
 
     renderSettings();
 
   }
-
-
-  /* =========================================================
-     СТРОКИ РЕДАКТОРА
-  ========================================================= */
 
   function renumberRows() {
 
@@ -2673,7 +2387,6 @@ main {
 
   }
 
-
   function updateLessonCount(
     panel
   ) {
@@ -2682,15 +2395,12 @@ main {
       return;
     }
 
-
     const count =
       $$(".editor-row", panel)
         .length;
 
-
     const label =
       $(".day-panel-head span", panel);
-
 
     label.textContent =
       `${count} ${
@@ -2701,7 +2411,6 @@ main {
 
   }
 
-
   function addLesson(dayKey) {
 
     const panel =
@@ -2711,15 +2420,12 @@ main {
         ".day-panel"
       );
 
-
     if (!panel) {
       return;
     }
 
-
     const list =
       $(".lesson-editor-list", panel);
-
 
     const row =
       createEditorRow(
@@ -2732,85 +2438,64 @@ main {
         list.children.length
       );
 
-
     list.appendChild(
       row
     );
 
-
     renumberRows();
-
 
     updateLessonCount(
       panel
     );
 
-
     const input =
       $(".subject-input", row);
-
 
     input?.focus();
 
   }
-
-
-  /* =========================================================
-     КОПИРОВАНИЕ НЕДЕЛИ
-  ========================================================= */
 
   function copyCurrentToNext() {
 
     const currentKey =
       weekKeyByOffset(0);
 
-
     const nextKey =
       weekKeyByOffset(1);
-
 
     ensureWeek(
       currentKey
     );
-
 
     state.data.weeks[nextKey] =
       clone(
         state.data.weeks[currentKey]
       );
 
-
     ensureHomeworkWeek(
       currentKey
     );
 
-
     ensureHomeworkWeek(
       nextKey
     );
-
 
     state.data.homework[nextKey] =
       clone(
         state.data.homework[currentKey]
       );
 
-
     saveData();
-
 
     state.settingsWeek =
       "next";
 
-
     renderSettings();
-
 
     setText(
       "save-status",
       "Скопировано"
     );
-
 
     setTimeout(
       () => {
@@ -2826,18 +2511,12 @@ main {
 
   }
 
-
-  /* =========================================================
-     ОЧИСТКА НЕДЕЛИ
-  ========================================================= */
-
   function clearSelectedWeek() {
 
     const label =
       state.settingsWeek === "next"
         ? "следующую"
         : "текущую";
-
 
     if (
       !window.confirm(
@@ -2847,26 +2526,18 @@ main {
       return;
     }
 
-
     state.data.weeks[
       weekKeyForSettings()
     ] =
       emptySchedule();
 
-
     saveData();
-
 
     renderSettings();
 
     renderSchedule();
 
   }
-
-
-  /* =========================================================
-     ПОЛНЫЙ СБРОС
-  ========================================================= */
 
   function resetAll() {
 
@@ -2878,19 +2549,15 @@ main {
       return;
     }
 
-
     localStorage.removeItem(
       STORAGE_KEY
     );
 
-
     state.data =
       baseData();
 
-
     state.settingsWeek =
       "current";
-
 
     renderSchedule();
 
@@ -2902,18 +2569,12 @@ main {
 
   }
 
-
-  /* =========================================================
-     ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ
-  ========================================================= */
-
   function switchView(
     viewId
   ) {
 
     state.activeView =
       viewId;
-
 
     $$(".view")
       .forEach(view => {
@@ -2925,7 +2586,6 @@ main {
 
       });
 
-
     $$(".tab")
       .forEach(tab => {
 
@@ -2936,14 +2596,12 @@ main {
 
       });
 
-
     if (
       viewId ===
       "settings-view"
     ) {
       renderSettings();
     }
-
 
     if (
       viewId ===
@@ -2952,14 +2610,12 @@ main {
       renderSchedule();
     }
 
-
     if (
       viewId ===
       "homework-view"
     ) {
       renderHomework();
     }
-
 
     window.scrollTo({
       top: 0,
@@ -2968,22 +2624,15 @@ main {
 
   }
 
-
-  /* =========================================================
-     АВТОМАТИЧЕСКАЯ СМЕНА ДНЯ
-  ========================================================= */
-
   function handleDateRollovers() {
 
     let lastDateKey =
       new Date().toDateString();
 
-
     return () => {
 
       const current =
         new Date().toDateString();
-
 
       if (
         current !== lastDateKey
@@ -2992,51 +2641,40 @@ main {
         lastDateKey =
           current;
 
-
         ensureWeek(
           weekKeyByOffset(0)
         );
-
 
         ensureWeek(
           weekKeyByOffset(1)
         );
 
-
         ensureHomeworkWeek(
           weekKeyByOffset(0)
         );
 
-
         ensureHomeworkWeek(
           weekKeyByOffset(1)
         );
-
 
         state.data.lastActiveWeek =
           isoWeekKey(
             new Date()
           );
 
-
         saveData();
-
 
         state.selectedDay =
           currentDayKey(
             new Date()
           ) <= 5
-
             ? currentDayKey(
                 new Date()
               )
-
             : 1;
-
 
         state.settingsWeek =
           "current";
-
 
         renderSchedule();
 
@@ -3050,11 +2688,6 @@ main {
 
   }
 
-
-  /* =========================================================
-     НАВИГАЦИЯ
-  ========================================================= */
-
   document.addEventListener(
     "click",
     event => {
@@ -3063,7 +2696,6 @@ main {
         event.target.closest(
           ".tab"
         );
-
 
       if (tab) {
 
@@ -3075,18 +2707,15 @@ main {
 
       }
 
-
       const segment =
         event.target.closest(
           ".segment"
         );
 
-
       if (segment) {
 
         state.settingsWeek =
           segment.dataset.week;
-
 
         renderSettings();
 
@@ -3094,12 +2723,10 @@ main {
 
       }
 
-
       const addButton =
         event.target.closest(
           "[data-add-day]"
         );
-
 
       if (addButton) {
 
@@ -3114,17 +2741,11 @@ main {
     }
   );
 
-
-  /* =========================================================
-     КНОПКИ
-  ========================================================= */
-
   $("#save-settings")
     .addEventListener(
       "click",
       saveSettings
     );
-
 
   $("#save-homework")
     .addEventListener(
@@ -3132,13 +2753,11 @@ main {
       saveHomework
     );
 
-
   $("#copy-to-next")
     .addEventListener(
       "click",
       copyCurrentToNext
     );
-
 
   $("#clear-week")
     .addEventListener(
@@ -3146,13 +2765,11 @@ main {
       clearSelectedWeek
     );
 
-
   $("#reset-app")
     .addEventListener(
       "click",
       resetAll
     );
-
 
   $("#open-settings-from-banner")
     .addEventListener(
@@ -3162,11 +2779,6 @@ main {
           "settings-view"
         )
     );
-
-
-  /* =========================================================
-     VISIBILITY
-  ========================================================= */
 
   document.addEventListener(
     "visibilitychange",
@@ -3183,14 +2795,8 @@ main {
     }
   );
 
-
-  /* =========================================================
-     ЗАПУСК
-  ========================================================= */
-
   const handleRollover =
     handleDateRollovers();
-
 
   setInterval(
     () => {
@@ -3203,22 +2809,14 @@ main {
     1000
   );
 
-
-  /* =========================================================
-     ПЕРВИЧНЫЙ РЕНДЕР
-  ========================================================= */
-
   state.selectedDay =
     currentDayKey(
       new Date()
     ) <= 5
-
       ? currentDayKey(
           new Date()
         )
-
       : 1;
-
 
   renderSettings();
 
@@ -3228,201 +2826,10 @@ main {
 
   refreshClock();
 
-
   if (!isConfigured()) {
 
     switchView(
       "settings-view"
-    );
-
-  }
-
-
-  /* =========================================================
-     SERVICE WORKER
-  ========================================================= */
-
-  if (
-    "serviceWorker" in navigator &&
-    window.isSecureContext
-  ) {
-
-    window.addEventListener(
-      "load",
-      () => {
-
-        const workerSource = `
-
-          const CACHE =
-            "ios-school-schedule-v1";
-
-          const APP_SHELL =
-            [self.location.href];
-
-
-          self.addEventListener(
-            "install",
-            event => {
-
-              event.waitUntil(
-
-                caches
-                  .open(CACHE)
-
-                  .then(
-                    cache =>
-                      cache.addAll(
-                        APP_SHELL
-                      )
-                  )
-
-                  .then(
-                    () =>
-                      self.skipWaiting()
-                  )
-
-              );
-
-            }
-          );
-
-
-          self.addEventListener(
-            "activate",
-            event => {
-
-              event.waitUntil(
-
-                caches.keys()
-
-                  .then(
-                    keys =>
-                      Promise.all(
-
-                        keys
-
-                          .filter(
-                            key =>
-                              key !== CACHE
-                          )
-
-                          .map(
-                            key =>
-                              caches.delete(
-                                key
-                              )
-                          )
-
-                      )
-                  )
-
-                  .then(
-                    () =>
-                      self.clients.claim()
-                  )
-
-              );
-
-            }
-          );
-
-
-          self.addEventListener(
-            "fetch",
-            event => {
-
-              if (
-                event.request.method !==
-                "GET"
-              ) {
-                return;
-              }
-
-
-              event.respondWith(
-
-                caches.match(
-                  event.request
-                )
-
-                .then(
-                  cached =>
-                    cached ||
-                    fetch(
-                      event.request
-                    )
-
-                    .then(
-                      response => {
-
-                        const copy =
-                          response.clone();
-
-
-                        caches
-                          .open(CACHE)
-
-                          .then(
-                            cache =>
-                              cache.put(
-                                event.request,
-                                copy
-                              )
-                          );
-
-
-                        return response;
-
-                      }
-                    )
-
-                    .catch(
-                      () =>
-                        caches.match(
-                          event.request
-                        )
-                    )
-                )
-
-              );
-
-            }
-          );
-
-        `;
-
-
-        try {
-
-          const blob =
-            new Blob(
-              [
-                workerSource
-              ],
-              {
-                type:
-                  "text/javascript"
-              }
-            );
-
-
-          const workerUrl =
-            URL.createObjectURL(
-              blob
-            );
-
-
-          navigator.serviceWorker
-            .register(
-              workerUrl
-            )
-            .catch(
-              () => {}
-            );
-
-        } catch (_) {}
-
-      }
     );
 
   }
