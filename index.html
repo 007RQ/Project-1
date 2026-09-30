@@ -8,6 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Расписание">
   <meta name="format-detection" content="telephone=no">
+
   <style>
 :root {
   color-scheme: light;
@@ -28,21 +29,38 @@
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html { min-height: 100%; background: var(--bg); }
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  min-height: 100%;
+  background: var(--bg);
+}
+
 body {
   margin: 0;
   min-height: 100vh;
   min-height: 100dvh;
   background: var(--bg);
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, system-ui, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "SF Pro Text", Inter, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overscroll-behavior: none;
 }
-button, input { font: inherit; }
-button { border: 0; }
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  border: 0;
+}
 
 .app-shell {
   min-height: 100vh;
@@ -62,7 +80,8 @@ button { border: 0; }
   margin: 0 auto;
 }
 
-.eyebrow, .muted-label {
+.eyebrow,
+.muted-label {
   margin: 0 0 7px;
   font-size: 10px;
   line-height: 1;
@@ -71,9 +90,25 @@ button { border: 0; }
   color: var(--muted);
 }
 
-h1, h2, p { margin-top: 0; }
-h1 { margin-bottom: 0; font-size: 30px; line-height: 1.05; letter-spacing: -.04em; }
-h2 { margin-bottom: 0; font-size: 22px; line-height: 1.1; letter-spacing: -.03em; }
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0;
+  font-size: 30px;
+  line-height: 1.05;
+  letter-spacing: -.04em;
+}
+
+h2 {
+  margin-bottom: 0;
+  font-size: 22px;
+  line-height: 1.1;
+  letter-spacing: -.03em;
+}
 
 .live-clock {
   display: grid;
@@ -81,19 +116,24 @@ h2 { margin-bottom: 0; font-size: 22px; line-height: 1.1; letter-spacing: -.03em
   min-width: 120px;
   text-align: right;
 }
+
 .live-clock span:first-child {
   font-variant-numeric: tabular-nums;
   font-size: 19px;
   font-weight: 700;
   letter-spacing: -.02em;
 }
+
 .live-clock span:last-child {
   font-size: 11px;
   color: var(--muted);
   text-transform: capitalize;
 }
 
-main { width: 100%; }
+main {
+  width: 100%;
+}
+
 .view {
   width: min(980px, 100%);
   margin: 0 auto;
@@ -101,10 +141,21 @@ main { width: 100%; }
   display: none;
   animation: viewIn .42s cubic-bezier(.2,.75,.25,1);
 }
-.view.active { display: block; }
+
+.view.active {
+  display: block;
+}
+
 @keyframes viewIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .notice {
@@ -118,19 +169,115 @@ main { width: 100%; }
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
 }
-.notice.subtle { margin: 0 0 14px; background: rgba(255,255,255,.72); }
-.notice strong, .notice span { display: block; }
-.notice strong { font-size: 13px; margin-bottom: 4px; }
-.notice span { font-size: 12px; color: var(--muted); line-height: 1.4; }
-.hidden { display: none !important; }
 
-.schedule-header, .settings-head {
+.notice.subtle {
+  margin: 0 0 14px;
+  background: rgba(255,255,255,.72);
+}
+
+.notice strong,
+.notice span {
+  display: block;
+}
+
+.notice strong {
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.notice span {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.schedule-header,
+.settings-head {
   display: flex;
   align-items: end;
   justify-content: space-between;
   gap: 16px;
   padding: 8px 0 18px;
 }
+
+.day-switcher {
+  display: flex;
+  gap: 7px;
+  margin: 0 0 16px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.day-switcher::-webkit-scrollbar {
+  display: none;
+}
+
+.day-switch {
+  flex: 0 0 auto;
+  min-width: 52px;
+  height: 36px;
+  padding: 0 13px;
+  border-radius: 999px;
+  background: var(--soft);
+  color: var(--muted);
+  border: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.day-switch.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.day-switch.today:not(.active) {
+  border-color: #999;
+  color: var(--text);
+}
+
+.homework-list {
+  display: grid;
+  gap: 10px;
+}
+
+.homework-day-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+}
+
+.homework-day-card h3 {
+  margin: 0 0 10px;
+  font-size: 15px;
+}
+
+.homework-input {
+  width: 100%;
+  min-height: 110px;
+  resize: vertical;
+  border: 1px solid #dadbd9;
+  outline: none;
+  background: #fff;
+  color: var(--text);
+  border-radius: 13px;
+  padding: 11px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.homework-input:focus {
+  border-color: #111315;
+  box-shadow: 0 0 0 3px rgba(17,19,21,.08);
+}
+
 .day-badge {
   display: inline-flex;
   align-items: center;
@@ -146,7 +293,11 @@ main { width: 100%; }
   font-variant-numeric: tabular-nums;
 }
 
-.schedule-list { display: grid; gap: 10px; }
+.schedule-list {
+  display: grid;
+  gap: 10px;
+}
+
 .lesson-card {
   position: relative;
   display: grid;
@@ -159,28 +310,52 @@ main { width: 100%; }
   border-radius: var(--radius-lg);
   box-shadow: 0 8px 24px rgba(17,19,21,.04);
   backdrop-filter: blur(14px);
-  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease,
+    background .25s ease;
 }
+
 .lesson-card.current {
   border-color: #1b1d1f;
   box-shadow: 0 12px 28px rgba(17,19,21,.11);
   background: #fff;
 }
-.lesson-card.past { opacity: .56; }
+
+.lesson-card.past {
+  opacity: .56;
+}
+
 .lesson-time {
   display: grid;
   align-content: center;
   gap: 3px;
   min-width: 0;
 }
+
 .lesson-time strong {
   font-size: 17px;
   letter-spacing: -.02em;
   font-variant-numeric: tabular-nums;
 }
-.lesson-time span { font-size: 10px; color: var(--muted); }
-.lesson-info { min-width: 0; }
-.lesson-topline { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+
+.lesson-time span {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.lesson-info {
+  min-width: 0;
+}
+
+.lesson-topline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
 .lesson-title {
   margin: 0;
   font-size: 16px;
@@ -189,6 +364,7 @@ main { width: 100%; }
   letter-spacing: -.02em;
   overflow-wrap: anywhere;
 }
+
 .current-pill {
   flex: 0 0 auto;
   padding: 5px 8px;
@@ -200,6 +376,7 @@ main { width: 100%; }
   text-transform: uppercase;
   font-weight: 800;
 }
+
 .lesson-note {
   margin: 6px 0 0;
   color: var(--muted);
@@ -213,7 +390,11 @@ main { width: 100%; }
   padding: 64px 22px;
   text-align: center;
 }
-.empty-state.compact { padding: 46px 16px 24px; }
+
+.empty-state.compact {
+  padding: 46px 16px 24px;
+}
+
 .empty-icon {
   width: 44px;
   height: 44px;
@@ -226,11 +407,27 @@ main { width: 100%; }
   font-size: 17px;
   margin-bottom: 14px;
 }
-.empty-state h2 { margin-bottom: 7px; font-size: 20px; }
-.empty-state p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
 
-.settings-head { align-items: center; }
-.settings-head h2 { font-size: 21px; }
+.empty-state h2 {
+  margin-bottom: 7px;
+  font-size: 20px;
+}
+
+.empty-state p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.settings-head {
+  align-items: center;
+}
+
+.settings-head h2 {
+  font-size: 21px;
+}
+
 .segmented {
   display: inline-flex;
   padding: 3px;
@@ -238,6 +435,7 @@ main { width: 100%; }
   background: var(--soft);
   border: 1px solid var(--border);
 }
+
 .segment {
   min-width: 73px;
   height: 32px;
@@ -249,7 +447,11 @@ main { width: 100%; }
   font-weight: 700;
   cursor: pointer;
 }
-.segment.active { color: #fff; background: var(--accent); }
+
+.segment.active {
+  color: #fff;
+  background: var(--accent);
+}
 
 .settings-toolbar {
   display: flex;
@@ -257,6 +459,7 @@ main { width: 100%; }
   margin-bottom: 16px;
   flex-wrap: wrap;
 }
+
 .button {
   min-height: 40px;
   padding: 0 14px;
@@ -264,15 +467,44 @@ main { width: 100%; }
   font-size: 12px;
   font-weight: 750;
   cursor: pointer;
-  transition: transform .2s ease, opacity .2s ease, background .2s ease;
+  transition:
+    transform .2s ease,
+    opacity .2s ease,
+    background .2s ease;
 }
-.button:active { transform: scale(.98); }
-.button-dark { background: var(--accent); color: #fff; }
-.button-light { background: #fff; color: var(--text); border: 1px solid var(--border); }
-.button-ghost { background: transparent; color: var(--muted); border: 1px solid transparent; }
-.button.large { min-height: 48px; padding: 0 18px; font-size: 13px; }
 
-.settings-days { display: grid; gap: 14px; }
+.button:active {
+  transform: scale(.98);
+}
+
+.button-dark {
+  background: var(--accent);
+  color: #fff;
+}
+
+.button-light {
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.button-ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid transparent;
+}
+
+.button.large {
+  min-height: 48px;
+  padding: 0 18px;
+  font-size: 13px;
+}
+
+.settings-days {
+  display: grid;
+  gap: 14px;
+}
+
 .day-panel {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -280,6 +512,7 @@ main { width: 100%; }
   padding: 16px;
   box-shadow: 0 8px 24px rgba(17,19,21,.04);
 }
+
 .day-panel-head {
   display: flex;
   align-items: center;
@@ -287,9 +520,23 @@ main { width: 100%; }
   gap: 12px;
   margin-bottom: 12px;
 }
-.day-panel-head h3 { margin:0; font-size: 16px; letter-spacing: -.02em; }
-.day-panel-head span { color: var(--muted); font-size: 11px; }
-.lesson-editor-list { display: grid; gap: 10px; }
+
+.day-panel-head h3 {
+  margin: 0;
+  font-size: 16px;
+  letter-spacing: -.02em;
+}
+
+.day-panel-head span {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.lesson-editor-list {
+  display: grid;
+  gap: 10px;
+}
+
 .editor-row {
   display: grid;
   grid-template-columns: 40px minmax(0,1.5fr) 108px 108px 36px;
@@ -300,21 +547,35 @@ main { width: 100%; }
   border: 1px solid #e7e7e5;
   border-radius: 16px;
 }
+
 .row-number {
   width: 32px;
   height: 32px;
   display: inline-flex;
-  align-items:center;
-  justify-content:center;
+  align-items: center;
+  justify-content: center;
   border-radius: 10px;
   background: #ececea;
   color: #5e6164;
   font-size: 11px;
   font-weight: 800;
 }
-.field { display: grid; gap: 4px; }
-.field label { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; font-weight: 700; }
-.input, .note-input {
+
+.field {
+  display: grid;
+  gap: 4px;
+}
+
+.field label {
+  font-size: 9px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-weight: 700;
+}
+
+.input,
+.note-input {
   width: 100%;
   border: 1px solid #dadbd9;
   outline: none;
@@ -326,13 +587,39 @@ main { width: 100%; }
   min-height: 36px;
   -webkit-appearance: none;
 }
-.input:focus, .note-input:focus { border-color: #111315; box-shadow: 0 0 0 3px rgba(17,19,21,.08); }
-.note-input { min-height: 72px; resize: vertical; }
-.subject-wrap { grid-column: 2 / 3; }
-.time-wrap { grid-column: 3 / 4; }
-.end-wrap { grid-column: 4 / 5; }
-.delete-wrap { grid-column: 5 / 6; grid-row: 1 / span 2; }
-.note-wrap { grid-column: 2 / 5; }
+
+.input:focus,
+.note-input:focus {
+  border-color: #111315;
+  box-shadow: 0 0 0 3px rgba(17,19,21,.08);
+}
+
+.note-input {
+  min-height: 72px;
+  resize: vertical;
+}
+
+.subject-wrap {
+  grid-column: 2 / 3;
+}
+
+.time-wrap {
+  grid-column: 3 / 4;
+}
+
+.end-wrap {
+  grid-column: 4 / 5;
+}
+
+.delete-wrap {
+  grid-column: 5 / 6;
+  grid-row: 1 / span 2;
+}
+
+.note-wrap {
+  grid-column: 2 / 5;
+}
+
 .icon-button {
   width: 32px;
   height: 32px;
@@ -342,6 +629,7 @@ main { width: 100%; }
   cursor: pointer;
   font-size: 16px;
 }
+
 .add-lesson {
   margin-top: 10px;
   width: 100%;
@@ -362,7 +650,12 @@ main { width: 100%; }
   margin-top: 16px;
   padding: 14px 0 0;
 }
-.save-status { color: var(--muted); font-size: 11px; }
+
+.save-status {
+  color: var(--muted);
+  font-size: 11px;
+}
+
 .settings-footer {
   display: flex;
   align-items: flex-start;
@@ -370,8 +663,23 @@ main { width: 100%; }
   gap: 14px;
   padding: 18px 0 8px;
 }
-.settings-footer p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.5; max-width: 560px; }
-.text-button { background: transparent; color: #55585b; font-size: 11px; font-weight: 700; padding: 4px; cursor: pointer; }
+
+.settings-footer p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+  max-width: 560px;
+}
+
+.text-button {
+  background: transparent;
+  color: #55585b;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px;
+  cursor: pointer;
+}
 
 .tabbar {
   position: fixed;
@@ -384,6 +692,7 @@ main { width: 100%; }
   border-top: 1px solid rgba(222,223,221,.8);
   backdrop-filter: blur(22px);
 }
+
 .tabbar::before {
   content: "";
   position: absolute;
@@ -393,13 +702,19 @@ main { width: 100%; }
   height: 1px;
   background: rgba(255,255,255,.72);
 }
-.tabbar { display:flex; justify-content:center; gap: 8px; }
+
+.tabbar {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
 .tab {
   width: min(180px, 42vw);
   height: 48px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 8px;
   border-radius: 15px;
   background: transparent;
@@ -408,26 +723,75 @@ main { width: 100%; }
   font-weight: 750;
   cursor: pointer;
 }
-.tab.active { background: var(--accent); color: #fff; }
-.tab-icon { font-size: 15px; line-height: 1; }
+
+.tab.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.tab-icon {
+  font-size: 15px;
+  line-height: 1;
+}
 
 @media (max-width: 640px) {
-  .topbar { padding-left: 16px; padding-right: 16px; }
-  .view { padding-left: 16px; padding-right: 16px; }
-  .topbar h1 { font-size: 28px; }
-  .notice { align-items: flex-start; }
-  .schedule-header { padding-top: 4px; }
-  .editor-row { grid-template-columns: 36px minmax(0,1fr) 1fr 36px; }
-  .subject-wrap { grid-column: 2 / 4; }
-  .time-wrap { grid-column: 2 / 3; }
-  .end-wrap { grid-column: 3 / 4; }
-  .delete-wrap { grid-column: 4 / 5; grid-row: 1; }
-  .note-wrap { grid-column: 2 / 5; }
-  .settings-footer { flex-direction: column; }
+  .topbar {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .view {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .topbar h1 {
+    font-size: 28px;
+  }
+
+  .notice {
+    align-items: flex-start;
+  }
+
+  .schedule-header {
+    padding-top: 4px;
+  }
+
+  .editor-row {
+    grid-template-columns: 36px minmax(0,1fr) 1fr 36px;
+  }
+
+  .subject-wrap {
+    grid-column: 2 / 4;
+  }
+
+  .time-wrap {
+    grid-column: 2 / 3;
+  }
+
+  .end-wrap {
+    grid-column: 3 / 4;
+  }
+
+  .delete-wrap {
+    grid-column: 4 / 5;
+    grid-row: 1;
+  }
+
+  .note-wrap {
+    grid-column: 2 / 5;
+  }
+
+  .settings-footer {
+    flex-direction: column;
+  }
 }
 
 @media (min-width: 760px) {
-  .app-shell { padding-bottom: 24px; }
+  .app-shell {
+    padding-bottom: 24px;
+  }
+
   .tabbar {
     position: sticky;
     top: 10px;
@@ -439,598 +803,2632 @@ main { width: 100%; }
     padding: 5px;
     background: rgba(245,245,243,.9);
   }
-  .tabbar::before { display: none; }
-  .tab { height: 44px; border-radius: 999px; }
-}
 
+  .tabbar::before {
+    display: none;
+  }
+
+  .tab {
+    height: 44px;
+    border-radius: 999px;
+  }
+}
   </style>
+
   <title>Расписание</title>
 </head>
+
 <body>
-  <div id="app" class="app-shell">
-    <header class="topbar">
-      <div>
-        <p class="eyebrow" id="week-label">РАСПИСАНИЕ</p>
-        <h1 id="page-title">Сегодня</h1>
+
+<div id="app" class="app-shell">
+
+  <header class="topbar">
+
+    <div>
+      <p class="eyebrow" id="week-label">РАСПИСАНИЕ</p>
+      <h1 id="page-title">Сегодня</h1>
+    </div>
+
+    <div class="live-clock" aria-live="polite">
+      <span id="clock">00:00:00</span>
+      <span id="date">—</span>
+    </div>
+
+  </header>
+
+  <main>
+
+    <!-- РАСПИСАНИЕ -->
+
+    <section
+      id="schedule-view"
+      class="view active"
+      aria-label="Расписание на сегодня"
+    >
+
+      <div id="setup-banner" class="notice hidden">
+
+        <div>
+          <strong>Сначала заполните 5 рабочих дней</strong>
+          <span>
+            Настройте предметы, время звонков и заметки во вкладке «Настройки».
+          </span>
+        </div>
+
+        <button
+          class="button button-dark"
+          id="open-settings-from-banner"
+        >
+          Открыть
+        </button>
+
       </div>
-      <div class="live-clock" aria-live="polite">
-        <span id="clock">00:00:00</span>
-        <span id="date">—</span>
+
+      <div id="weekend-state" class="empty-state hidden">
+
+        <div class="empty-icon">—</div>
+
+        <h2>Выходной</h2>
+
+        <p>
+          Расписание ведётся только для пяти рабочих дней.
+        </p>
+
       </div>
-    </header>
 
-    <main>
-      <section id="schedule-view" class="view active" aria-label="Расписание на сегодня">
-        <div id="setup-banner" class="notice hidden">
-          <div>
-            <strong>Сначала заполните 5 рабочих дней</strong>
-            <span>Настройте предметы, время звонков и заметки во вкладке «Настройки».</span>
-          </div>
-          <button class="button button-dark" id="open-settings-from-banner">Открыть</button>
+      <div id="schedule-header" class="schedule-header hidden">
+
+        <div>
+          <span class="muted-label">СЕГОДНЯ</span>
+          <h2 id="day-name">Понедельник</h2>
         </div>
 
-        <div id="weekend-state" class="empty-state hidden">
-          <div class="empty-icon">—</div>
-          <h2>Выходной</h2>
-          <p>Расписание ведётся только для пяти рабочих дней.</p>
+        <span
+          class="day-badge"
+          id="day-date"
+        >
+          01.01
+        </span>
+
+      </div>
+
+      <div
+        id="day-switcher"
+        class="day-switcher"
+        aria-label="Выбор дня"
+      ></div>
+
+      <div
+        id="schedule-list"
+        class="schedule-list"
+      ></div>
+
+      <div
+        id="no-lessons"
+        class="empty-state compact hidden"
+      >
+
+        <div class="empty-icon">○</div>
+
+        <h2>Уроков нет</h2>
+
+        <p>
+          На этот день пока ничего не добавлено.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- ДОМАШНЕЕ ЗАДАНИЕ -->
+
+    <section
+      id="homework-view"
+      class="view"
+      aria-label="Домашнее задание"
+    >
+
+      <div class="settings-head">
+
+        <div>
+          <span class="muted-label">ЗАДАНИЯ</span>
+          <h2>Домашнее задание</h2>
         </div>
 
-        <div id="schedule-header" class="schedule-header hidden">
-          <div>
-            <span class="muted-label">СЕГОДНЯ</span>
-            <h2 id="day-name">Понедельник</h2>
-          </div>
-          <span class="day-badge" id="day-date">01.01</span>
+      </div>
+
+      <div
+        id="homework-list"
+        class="homework-list"
+      ></div>
+
+      <div class="save-row">
+
+        <span
+          id="homework-status"
+          class="save-status"
+        >
+          Сохраняется на устройстве
+        </span>
+
+        <button
+          id="save-homework"
+          class="button button-dark large"
+        >
+          Сохранить
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- НАСТРОЙКИ -->
+
+    <section
+      id="settings-view"
+      class="view"
+      aria-label="Настройки расписания"
+    >
+
+      <div class="settings-head">
+
+        <div>
+
+          <span class="muted-label">НЕДЕЛЯ</span>
+
+          <h2 id="settings-week-title">
+            Текущая неделя
+          </h2>
+
         </div>
 
-        <div id="schedule-list" class="schedule-list"></div>
+        <div
+          class="segmented"
+          role="tablist"
+          aria-label="Выбор недели"
+        >
 
-        <div id="no-lessons" class="empty-state compact hidden">
-          <div class="empty-icon">○</div>
-          <h2>Уроков нет</h2>
-          <p>На этот день пока ничего не добавлено.</p>
-        </div>
-      </section>
+          <button
+            class="segment active"
+            data-week="current"
+            role="tab"
+            aria-selected="true"
+          >
+            Эта
+          </button>
 
-      <section id="settings-view" class="view" aria-label="Настройки расписания">
-        <div class="settings-head">
-          <div>
-            <span class="muted-label">НЕДЕЛЯ</span>
-            <h2 id="settings-week-title">Текущая неделя</h2>
-          </div>
-          <div class="segmented" role="tablist" aria-label="Выбор недели">
-            <button class="segment active" data-week="current" role="tab" aria-selected="true">Эта</button>
-            <button class="segment" data-week="next" role="tab" aria-selected="false">Следующая</button>
-          </div>
-        </div>
+          <button
+            class="segment"
+            data-week="next"
+            role="tab"
+            aria-selected="false"
+          >
+            Следующая
+          </button>
 
-        <div id="setup-help" class="notice subtle">
-          <div>
-            <strong>Начальная настройка</strong>
-            <span>Заполните рабочие дни. Изменения сохраняются на этом устройстве.</span>
-          </div>
         </div>
 
-        <div class="settings-toolbar">
-          <button id="copy-to-next" class="button button-light">Скопировать эту неделю в следующую</button>
-          <button id="clear-week" class="button button-ghost">Очистить неделю</button>
+      </div>
+
+
+      <div
+        id="setup-help"
+        class="notice subtle"
+      >
+
+        <div>
+
+          <strong>Начальная настройка</strong>
+
+          <span>
+            Заполните рабочие дни.
+            Изменения сохраняются на этом устройстве.
+          </span>
+
         </div>
 
-        <div id="settings-days" class="settings-days"></div>
+      </div>
 
-        <div class="save-row">
-          <span id="save-status" class="save-status" aria-live="polite">Готово</span>
-          <button id="save-settings" class="button button-dark large">Сохранить расписание</button>
-        </div>
 
-        <div class="settings-footer">
-          <p>Время и дата берутся автоматически с устройства. После 00:00 приложение переключается на новый календарный день.</p>
-          <button id="reset-app" class="text-button">Сбросить все данные</button>
-        </div>
-      </section>
-    </main>
+      <div class="settings-toolbar">
 
-    <nav class="tabbar" aria-label="Основная навигация">
-      <button class="tab active" data-view="schedule-view" aria-label="Сегодня">
-        <span class="tab-icon">⌂</span>
-        <span>Сегодня</span>
-      </button>
-      <button class="tab" data-view="settings-view" aria-label="Настройки">
-        <span class="tab-icon">☰</span>
-        <span>Настройки</span>
-      </button>
-    </nav>
-  </div>
-  <script>
+        <button
+          id="copy-to-next"
+          class="button button-light"
+        >
+          Скопировать эту неделю в следующую
+        </button>
+
+        <button
+          id="clear-week"
+          class="button button-ghost"
+        >
+          Очистить неделю
+        </button>
+
+      </div>
+
+
+      <div
+        id="settings-days"
+        class="settings-days"
+      ></div>
+
+
+      <div class="save-row">
+
+        <span
+          id="save-status"
+          class="save-status"
+          aria-live="polite"
+        >
+          Готово
+        </span>
+
+        <button
+          id="save-settings"
+          class="button button-dark large"
+        >
+          Сохранить расписание
+        </button>
+
+      </div>
+
+
+      <div class="settings-footer">
+
+        <p>
+          Время и дата берутся автоматически с устройства.
+          После 00:00 приложение переключается на новый календарный день.
+        </p>
+
+        <button
+          id="reset-app"
+          class="text-button"
+        >
+          Сбросить все данные
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- НИЖНЯЯ НАВИГАЦИЯ -->
+
+  <nav
+    class="tabbar"
+    aria-label="Основная навигация"
+  >
+
+    <button
+      class="tab active"
+      data-view="schedule-view"
+      aria-label="Сегодня"
+    >
+      <span class="tab-icon">⌂</span>
+      <span>Сегодня</span>
+    </button>
+
+    <button
+      class="tab"
+      data-view="homework-view"
+      aria-label="Домашнее задание"
+    >
+      <span class="tab-icon">□</span>
+      <span>Д/з</span>
+    </button>
+
+    <button
+      class="tab"
+      data-view="settings-view"
+      aria-label="Настройки"
+    >
+      <span class="tab-icon">☰</span>
+      <span>Настройки</span>
+    </button>
+
+  </nav>
+
+</div>
+
+
+<script>
 (() => {
+
   "use strict";
 
+
+  /* =========================================================
+     ОСНОВНЫЕ НАСТРОЙКИ
+  ========================================================= */
+
   const STORAGE_KEY = "ios-school-schedule-v1";
+
+
   const weekdays = [
-    { key: 1, short: "Пн", full: "Понедельник" },
-    { key: 2, short: "Вт", full: "Вторник" },
-    { key: 3, short: "Ср", full: "Среда" },
-    { key: 4, short: "Чт", full: "Четверг" },
-    { key: 5, short: "Пт", full: "Пятница" }
+    {
+      key: 1,
+      short: "Пн",
+      full: "Понедельник"
+    },
+    {
+      key: 2,
+      short: "Вт",
+      full: "Вторник"
+    },
+    {
+      key: 3,
+      short: "Ср",
+      full: "Среда"
+    },
+    {
+      key: 4,
+      short: "Чт",
+      full: "Четверг"
+    },
+    {
+      key: 5,
+      short: "Пт",
+      full: "Пятница"
+    }
   ];
 
+
   const state = {
+
     activeView: "schedule-view",
+
     settingsWeek: "current",
+
     data: loadData()
+
   };
 
-  const $ = (selector, root = document) => root.querySelector(selector);
-  const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+
+  const $ = (
+    selector,
+    root = document
+  ) => root.querySelector(selector);
+
+
+  const $$ = (
+    selector,
+    root = document
+  ) => [...root.querySelectorAll(selector)];
+
+
+  /* =========================================================
+     ПУСТЫЕ ДАННЫЕ
+  ========================================================= */
 
   function emptySchedule() {
-    return weekdays.reduce((acc, day) => {
-      acc[day.key] = [];
-      return acc;
-    }, {});
+
+    return weekdays.reduce(
+      (acc, day) => {
+
+        acc[day.key] = [];
+
+        return acc;
+
+      },
+      {}
+    );
+
   }
+
+
+  function emptyHomework() {
+
+    return weekdays.reduce(
+      (acc, day) => {
+
+        acc[day.key] = "";
+
+        return acc;
+
+      },
+      {}
+    );
+
+  }
+
 
   function clone(value) {
-    return JSON.parse(JSON.stringify(value));
+
+    return JSON.parse(
+      JSON.stringify(value)
+    );
+
   }
+
+
+  /* =========================================================
+     НОМЕР НЕДЕЛИ
+  ========================================================= */
 
   function isoWeekKey(date) {
-    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-    const dayNum = d.getUTCDay() || 7;
-    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-    const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+
+    const d = new Date(
+      Date.UTC(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+      )
+    );
+
+    const dayNum =
+      d.getUTCDay() || 7;
+
+    d.setUTCDate(
+      d.getUTCDate() + 4 - dayNum
+    );
+
+    const yearStart =
+      new Date(
+        Date.UTC(
+          d.getUTCFullYear(),
+          0,
+          1
+        )
+      );
+
+    const weekNo =
+      Math.ceil(
+        (
+          (
+            (d - yearStart) /
+            86400000
+          ) + 1
+        ) / 7
+      );
+
     return `${d.getUTCFullYear()}-W${String(weekNo).padStart(2, "0")}`;
+
   }
+
 
   function weekKeyByOffset(offset) {
+
     const now = new Date();
-    now.setDate(now.getDate() + offset * 7);
+
+    now.setDate(
+      now.getDate() + offset * 7
+    );
+
     return isoWeekKey(now);
+
   }
+
+
+  /* =========================================================
+     БАЗОВЫЕ ДАННЫЕ
+  ========================================================= */
 
   function baseData() {
+
     return {
+
       weeks: {
-        [weekKeyByOffset(0)]: emptySchedule(),
-        [weekKeyByOffset(1)]: emptySchedule()
+
+        [weekKeyByOffset(0)]:
+          emptySchedule(),
+
+        [weekKeyByOffset(1)]:
+          emptySchedule()
+
       },
-      lastActiveWeek: weekKeyByOffset(0)
+
+      homework: {
+
+        [weekKeyByOffset(0)]:
+          emptyHomework(),
+
+        [weekKeyByOffset(1)]:
+          emptyHomework()
+
+      },
+
+      lastActiveWeek:
+        weekKeyByOffset(0)
+
     };
+
   }
+
+
+  /* =========================================================
+     ЗАГРУЗКА
+  ========================================================= */
 
   function loadData() {
+
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return baseData();
-      const parsed = JSON.parse(raw);
-      if (!parsed || typeof parsed !== "object") return baseData();
-      parsed.weeks = parsed.weeks || {};
-      ensureWeek(weekKeyByOffset(0), parsed);
-      ensureWeek(weekKeyByOffset(1), parsed);
+
+      const raw =
+        localStorage.getItem(
+          STORAGE_KEY
+        );
+
+      if (!raw) {
+        return baseData();
+      }
+
+
+      const parsed =
+        JSON.parse(raw);
+
+
+      if (
+        !parsed ||
+        typeof parsed !== "object"
+      ) {
+        return baseData();
+      }
+
+
+      parsed.weeks =
+        parsed.weeks || {};
+
+
+      parsed.homework =
+        parsed.homework || {};
+
+
+      ensureWeek(
+        weekKeyByOffset(0),
+        parsed
+      );
+
+      ensureWeek(
+        weekKeyByOffset(1),
+        parsed
+      );
+
+
+      ensureHomeworkWeek(
+        weekKeyByOffset(0),
+        parsed
+      );
+
+      ensureHomeworkWeek(
+        weekKeyByOffset(1),
+        parsed
+      );
+
+
       return parsed;
+
     } catch (error) {
+
       return baseData();
+
     }
+
   }
 
-  function ensureWeek(key, target = state.data) {
-    if (!target.weeks[key]) target.weeks[key] = emptySchedule();
+
+  /* =========================================================
+     ПРОВЕРКА НЕДЕЛЕЙ
+  ========================================================= */
+
+  function ensureWeek(
+    key,
+    target = state.data
+  ) {
+
+    if (!target.weeks[key]) {
+
+      target.weeks[key] =
+        emptySchedule();
+
+    }
+
+
     weekdays.forEach(day => {
-      if (!Array.isArray(target.weeks[key][day.key])) target.weeks[key][day.key] = [];
+
+      if (
+        !Array.isArray(
+          target.weeks[key][day.key]
+        )
+      ) {
+
+        target.weeks[key][day.key] = [];
+
+      }
+
     });
+
   }
+
+
+  function ensureHomeworkWeek(
+    key,
+    target = state.data
+  ) {
+
+    if (!target.homework[key]) {
+
+      target.homework[key] =
+        emptyHomework();
+
+    }
+
+
+    weekdays.forEach(day => {
+
+      if (
+        typeof target.homework[key][day.key]
+        !== "string"
+      ) {
+
+        target.homework[key][day.key] = "";
+
+      }
+
+    });
+
+  }
+
+
+  /* =========================================================
+     СОХРАНЕНИЕ
+  ========================================================= */
 
   function saveData() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state.data));
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(state.data)
+    );
+
   }
+
+
+  /* =========================================================
+     НОРМАЛИЗАЦИЯ УРОКА
+  ========================================================= */
 
   function normalizedLesson(lesson) {
+
     return {
-      subject: String(lesson?.subject || "").trim(),
-      start: /^\d{2}:\d{2}$/.test(lesson?.start || "") ? lesson.start : "",
-      end: /^\d{2}:\d{2}$/.test(lesson?.end || "") ? lesson.end : "",
-      note: String(lesson?.note || "").trim()
+
+      subject:
+        String(
+          lesson?.subject || ""
+        ).trim(),
+
+      start:
+        /^\d{2}:\d{2}$/.test(
+          lesson?.start || ""
+        )
+          ? lesson.start
+          : "",
+
+      end:
+        /^\d{2}:\d{2}$/.test(
+          lesson?.end || ""
+        )
+          ? lesson.end
+          : "",
+
+      note:
+        String(
+          lesson?.note || ""
+        ).trim()
+
     };
+
   }
+
+
+  /* =========================================================
+     ПРОВЕРКА НАСТРОЙКИ
+  ========================================================= */
 
   function isConfigured() {
-    const current = state.data.weeks[weekKeyByOffset(0)] || emptySchedule();
-    return Object.values(current).some(list => list.some(item => normalizedLesson(item).subject || normalizedLesson(item).start));
+
+    const current =
+      state.data.weeks[
+        weekKeyByOffset(0)
+      ] ||
+      emptySchedule();
+
+
+    return Object.values(current)
+      .some(list =>
+        list.some(item => {
+
+          const lesson =
+            normalizedLesson(item);
+
+          return (
+            lesson.subject ||
+            lesson.start
+          );
+
+        })
+      );
+
   }
+
+
+  /* =========================================================
+     ДАТА / ВРЕМЯ
+  ========================================================= */
 
   function formatClock(date) {
-    return new Intl.DateTimeFormat("ru-RU", {
-      hour: "2-digit", minute: "2-digit", second: "2-digit",
-      hour12: false
-    }).format(date);
+
+    return new Intl.DateTimeFormat(
+      "ru-RU",
+      {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      }
+    ).format(date);
+
   }
+
 
   function formatDate(date) {
-    return new Intl.DateTimeFormat("ru-RU", {
-      weekday: "long", day: "numeric", month: "long", year: "numeric"
-    }).format(date);
+
+    return new Intl.DateTimeFormat(
+      "ru-RU",
+      {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      }
+    ).format(date);
+
   }
+
 
   function formatShortDate(date) {
-    return new Intl.DateTimeFormat("ru-RU", {
-      day: "2-digit", month: "2-digit"
-    }).format(date);
+
+    return new Intl.DateTimeFormat(
+      "ru-RU",
+      {
+        day: "2-digit",
+        month: "2-digit"
+      }
+    ).format(date);
+
   }
 
-  function currentDayKey(date = new Date()) {
-    const js = date.getDay();
-    return js === 0 ? 7 : js;
+
+  function currentDayKey(
+    date = new Date()
+  ) {
+
+    const js =
+      date.getDay();
+
+    return js === 0
+      ? 7
+      : js;
+
   }
+
 
   function minutesFromTime(value) {
-    if (!/^\d{2}:\d{2}$/.test(value)) return null;
-    const [h, m] = value.split(":").map(Number);
-    if (h > 23 || m > 59) return null;
+
+    if (
+      !/^\d{2}:\d{2}$/.test(value)
+    ) {
+      return null;
+    }
+
+
+    const [
+      h,
+      m
+    ] =
+      value
+        .split(":")
+        .map(Number);
+
+
+    if (
+      h > 23 ||
+      m > 59
+    ) {
+      return null;
+    }
+
+
     return h * 60 + m;
+
   }
+
+
+  /* =========================================================
+     СОРТИРОВКА
+  ========================================================= */
 
   function sortLessons(list) {
-    return [...list].map(normalizedLesson).sort((a, b) => {
-      const aMin = minutesFromTime(a.start);
-      const bMin = minutesFromTime(b.start);
-      if (aMin === null && bMin === null) return 0;
-      if (aMin === null) return 1;
-      if (bMin === null) return -1;
-      return aMin - bMin;
-    });
+
+    return [...list]
+      .map(normalizedLesson)
+      .sort((a, b) => {
+
+        const aMin =
+          minutesFromTime(
+            a.start
+          );
+
+        const bMin =
+          minutesFromTime(
+            b.start
+          );
+
+
+        if (
+          aMin === null &&
+          bMin === null
+        ) {
+          return 0;
+        }
+
+
+        if (aMin === null) {
+          return 1;
+        }
+
+
+        if (bMin === null) {
+          return -1;
+        }
+
+
+        return aMin - bMin;
+
+      });
+
   }
 
-  function setText(id, value) {
-    const node = document.getElementById(id);
-    if (node) node.textContent = value;
-  }
 
-  function refreshClock() {
-    const now = new Date();
-    setText("clock", formatClock(now));
-    setText("date", formatDate(now));
-    setText("week-label", `НЕДЕЛЯ ${isoWeekKey(now).split("-")[0]} · ${isoWeekKey(now).split("-")[1]}`);
-    renderSchedule();
-  }
+  /* =========================================================
+     ВСПОМОГАТЕЛЬНЫЕ
+  ========================================================= */
 
-  function renderSchedule() {
-    const now = new Date();
-    const dayKey = currentDayKey(now);
-    const isWeekend = dayKey > 5;
-    const weekendState = $("#weekend-state");
-    const scheduleHeader = $("#schedule-header");
-    const scheduleList = $("#schedule-list");
-    const noLessons = $("#no-lessons");
-    const banner = $("#setup-banner");
+  function setText(
+    id,
+    value
+  ) {
 
-    banner.classList.toggle("hidden", isConfigured());
-    weekendState.classList.toggle("hidden", !isWeekend);
-    scheduleHeader.classList.toggle("hidden", isWeekend);
-    scheduleList.innerHTML = "";
-    noLessons.classList.add("hidden");
+    const node =
+      document.getElementById(id);
 
-    if (isWeekend) return;
-
-    const week = state.data.weeks[isoWeekKey(now)] || emptySchedule();
-    const day = weekdays.find(item => item.key === dayKey);
-    const lessons = sortLessons(week[dayKey] || []);
-
-    setText("day-name", day.full);
-    setText("day-date", formatShortDate(now));
-
-    if (!lessons.length) {
-      noLessons.classList.remove("hidden");
-      return;
+    if (node) {
+      node.textContent = value;
     }
 
-    const nowMinutes = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
-    let currentMarked = false;
-
-    lessons.forEach((lesson, index) => {
-      const start = minutesFromTime(lesson.start);
-      const end = minutesFromTime(lesson.end);
-      const isCurrent = start !== null && end !== null && nowMinutes >= start && nowMinutes < end;
-      const isPast = end !== null && nowMinutes >= end;
-      if (isCurrent) currentMarked = true;
-
-      const card = document.createElement("article");
-      card.className = `lesson-card${isCurrent ? " current" : ""}${isPast ? " past" : ""}`;
-      const range = lesson.start && lesson.end ? `${lesson.start}–${lesson.end}` : lesson.start || lesson.end || "Время не задано";
-      card.innerHTML = `
-        <div class="lesson-time">
-          <strong>${escapeHtml(lesson.start || "—")}</strong>
-          <span>${escapeHtml(lesson.end || "—")}</span>
-        </div>
-        <div class="lesson-info">
-          <div class="lesson-topline">
-            <h3 class="lesson-title">${escapeHtml(lesson.subject || `Урок ${index + 1}`)}</h3>
-            ${isCurrent ? '<span class="current-pill">Сейчас</span>' : ""}
-          </div>
-          ${lesson.note ? `<p class="lesson-note">${escapeHtml(lesson.note)}</p>` : `<p class="lesson-note">${escapeHtml(range)}</p>`}
-        </div>
-      `;
-      scheduleList.appendChild(card);
-    });
-
-    void currentMarked;
   }
 
-  function weekKeyForSettings() {
-    return state.settingsWeek === "next" ? weekKeyByOffset(1) : weekKeyByOffset(0);
-  }
-
-  function renderSettings() {
-    const key = weekKeyForSettings();
-    ensureWeek(key);
-    setText("settings-week-title", state.settingsWeek === "next" ? "Следующая неделя" : "Текущая неделя");
-    $$(".segment").forEach(button => {
-      const active = button.dataset.week === state.settingsWeek;
-      button.classList.toggle("active", active);
-      button.setAttribute("aria-selected", active ? "true" : "false");
-    });
-
-    $("#setup-help").classList.toggle("hidden", isConfigured() || state.settingsWeek === "next");
-    const container = $("#settings-days");
-    container.innerHTML = "";
-    const week = state.data.weeks[key];
-
-    weekdays.forEach(day => {
-      const panel = document.createElement("section");
-      panel.className = "day-panel";
-      panel.innerHTML = `
-        <div class="day-panel-head">
-          <div>
-            <h3>${day.full}</h3>
-            <span>${day.short}</span>
-          </div>
-          <span>${(week[day.key] || []).length} ${(week[day.key] || []).length === 1 ? "урок" : "урока"}</span>
-        </div>
-        <div class="lesson-editor-list" data-day="${day.key}"></div>
-        <button type="button" class="add-lesson" data-add-day="${day.key}">+ Добавить урок</button>
-      `;
-      const list = $(".lesson-editor-list", panel);
-      (week[day.key] || []).forEach((lesson, index) => list.appendChild(createEditorRow(lesson, index)));
-      container.appendChild(panel);
-    });
-  }
-
-  function createEditorRow(lesson, index) {
-    const item = normalizedLesson(lesson);
-    const row = document.createElement("div");
-    row.className = "editor-row";
-    row.innerHTML = `
-      <div class="row-number">${index + 1}</div>
-      <div class="field subject-wrap">
-        <label>Предмет</label>
-        <input class="input subject-input" type="text" maxlength="60" placeholder="Математика" value="${escapeAttr(item.subject)}" autocomplete="off">
-      </div>
-      <div class="field time-wrap">
-        <label>Начало</label>
-        <input class="input start-input" type="time" value="${escapeAttr(item.start)}">
-      </div>
-      <div class="field end-wrap">
-        <label>Конец</label>
-        <input class="input end-input" type="time" value="${escapeAttr(item.end)}">
-      </div>
-      <div class="delete-wrap">
-        <button class="icon-button delete-lesson" type="button" aria-label="Удалить урок">×</button>
-      </div>
-      <div class="field note-wrap">
-        <label>Краткая заметка</label>
-        <textarea class="note-input" maxlength="180" placeholder="Домашнее задание, кабинет, напоминание…">${escapeHtml(item.note)}</textarea>
-      </div>
-    `;
-    row.querySelector(".delete-lesson").addEventListener("click", () => {
-      row.remove();
-      renumberRows();
-      updateLessonCount(row.closest(".day-panel"));
-    });
-    return row;
-  }
-
-  function collectSettingsForm() {
-    const key = weekKeyForSettings();
-    ensureWeek(key);
-    const result = emptySchedule();
-    $$(".day-panel").forEach(panel => {
-      const dayKey = Number($(".lesson-editor-list", panel).dataset.day);
-      const rows = $$(".editor-row", panel);
-      result[dayKey] = rows.map(row => normalizedLesson({
-        subject: $(".subject-input", row).value,
-        start: $(".start-input", row).value,
-        end: $(".end-input", row).value,
-        note: $(".note-input", row).value
-      })).filter(lesson => lesson.subject || lesson.start || lesson.end || lesson.note);
-    });
-    return result;
-  }
-
-  function saveSettings() {
-    const key = weekKeyForSettings();
-    state.data.weeks[key] = collectSettingsForm();
-    state.data.lastActiveWeek = isoWeekKey(new Date());
-    saveData();
-    setText("save-status", "Сохранено");
-    setTimeout(() => setText("save-status", "Готово"), 1600);
-    renderSchedule();
-    renderSettings();
-  }
-
-  function renumberRows() {
-    $$(".day-panel").forEach(panel => {
-      $$(".row-number", panel).forEach((node, index) => node.textContent = index + 1);
-    });
-  }
-
-  function updateLessonCount(panel) {
-    if (!panel) return;
-    const count = $$(".editor-row", panel).length;
-    const label = $(".day-panel-head span", panel);
-    label.textContent = `${count} ${count === 1 ? "урок" : "урока"}`;
-  }
-
-  function addLesson(dayKey) {
-    const panel = $(`.day-panel .lesson-editor-list[data-day="${dayKey}"]`)?.closest(".day-panel");
-    if (!panel) return;
-    const list = $(".lesson-editor-list", panel);
-    const row = createEditorRow({ subject: "", start: "", end: "", note: "" }, list.children.length);
-    list.appendChild(row);
-    renumberRows();
-    updateLessonCount(panel);
-    const input = $(".subject-input", row);
-    input?.focus();
-  }
-
-  function copyCurrentToNext() {
-    const currentKey = weekKeyByOffset(0);
-    const nextKey = weekKeyByOffset(1);
-    ensureWeek(currentKey);
-    state.data.weeks[nextKey] = clone(state.data.weeks[currentKey]);
-    saveData();
-    state.settingsWeek = "next";
-    renderSettings();
-    setText("save-status", "Скопировано");
-    setTimeout(() => setText("save-status", "Готово"), 1600);
-  }
-
-  function clearSelectedWeek() {
-    const label = state.settingsWeek === "next" ? "следующую" : "текущую";
-    if (!window.confirm(`Очистить ${label} неделю?`)) return;
-    state.data.weeks[weekKeyForSettings()] = emptySchedule();
-    saveData();
-    renderSettings();
-    renderSchedule();
-  }
-
-  function resetAll() {
-    if (!window.confirm("Удалить всё сохранённое расписание на этом устройстве?")) return;
-    localStorage.removeItem(STORAGE_KEY);
-    state.data = baseData();
-    state.settingsWeek = "current";
-    renderSchedule();
-    renderSettings();
-    switchView("settings-view");
-  }
-
-  function switchView(viewId) {
-    state.activeView = viewId;
-    $$(".view").forEach(view => view.classList.toggle("active", view.id === viewId));
-    $$(".tab").forEach(tab => tab.classList.toggle("active", tab.dataset.view === viewId));
-    if (viewId === "settings-view") renderSettings();
-    if (viewId === "schedule-view") renderSchedule();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
 
   function escapeHtml(value) {
+
     return String(value)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+
+      .replaceAll(
+        "&",
+        "&amp;"
+      )
+
+      .replaceAll(
+        "<",
+        "&lt;"
+      )
+
+      .replaceAll(
+        ">",
+        "&gt;"
+      )
+
+      .replaceAll(
+        '"',
+        "&quot;"
+      )
+
+      .replaceAll(
+        "'",
+        "&#039;"
+      );
+
   }
+
 
   function escapeAttr(value) {
+
     return escapeHtml(value);
+
   }
+
+
+  /* =========================================================
+     РАСПИСАНИЕ
+  ========================================================= */
+
+  function refreshClock() {
+
+    const now =
+      new Date();
+
+
+    setText(
+      "clock",
+      formatClock(now)
+    );
+
+
+    setText(
+      "date",
+      formatDate(now)
+    );
+
+
+    const week =
+      isoWeekKey(now);
+
+
+    setText(
+      "week-label",
+      `НЕДЕЛЯ ${week.split("-")[0]} · ${week.split("-")[1]}`
+    );
+
+
+    renderSchedule();
+
+  }
+
+
+  function renderSchedule() {
+
+    const now =
+      new Date();
+
+
+    const dayKey =
+      state.selectedDay ||
+      currentDayKey(now);
+
+
+    const isWeekend =
+      dayKey > 5;
+
+
+    const weekendState =
+      $("#weekend-state");
+
+
+    const scheduleHeader =
+      $("#schedule-header");
+
+
+    const scheduleList =
+      $("#schedule-list");
+
+
+    const noLessons =
+      $("#no-lessons");
+
+
+    const banner =
+      $("#setup-banner");
+
+
+    banner.classList.toggle(
+      "hidden",
+      isConfigured()
+    );
+
+
+    weekendState.classList.toggle(
+      "hidden",
+      !isWeekend
+    );
+
+
+    scheduleHeader.classList.toggle(
+      "hidden",
+      isWeekend
+    );
+
+
+    scheduleList.innerHTML = "";
+
+    noLessons.classList.add(
+      "hidden"
+    );
+
+
+    renderDaySwitcher(
+      currentDayKey(now)
+    );
+
+
+    if (isWeekend) {
+      return;
+    }
+
+
+    const week =
+      state.data.weeks[
+        isoWeekKey(now)
+      ] ||
+      emptySchedule();
+
+
+    const day =
+      weekdays.find(
+        item =>
+          item.key === dayKey
+      );
+
+
+    const lessons =
+      sortLessons(
+        week[dayKey] || []
+      );
+
+
+    setText(
+      "day-name",
+      day.full
+    );
+
+
+    setText(
+      "day-date",
+      formatShortDate(now)
+    );
+
+
+    if (!lessons.length) {
+
+      noLessons.classList.remove(
+        "hidden"
+      );
+
+      return;
+
+    }
+
+
+    const nowMinutes =
+      now.getHours() * 60 +
+      now.getMinutes() +
+      now.getSeconds() / 60;
+
+
+    lessons.forEach(
+      (lesson, index) => {
+
+        const start =
+          minutesFromTime(
+            lesson.start
+          );
+
+
+        const end =
+          minutesFromTime(
+            lesson.end
+          );
+
+
+        const isCurrent =
+          start !== null &&
+          end !== null &&
+          nowMinutes >= start &&
+          nowMinutes < end;
+
+
+        const isPast =
+          end !== null &&
+          nowMinutes >= end;
+
+
+        const card =
+          document.createElement(
+            "article"
+          );
+
+
+        card.className =
+          `lesson-card${
+            isCurrent
+              ? " current"
+              : ""
+          }${
+            isPast
+              ? " past"
+              : ""
+          }`;
+
+
+        const range =
+          lesson.start &&
+          lesson.end
+
+            ? `${lesson.start}–${lesson.end}`
+
+            : lesson.start ||
+              lesson.end ||
+              "Время не задано";
+
+
+        card.innerHTML = `
+
+          <div class="lesson-time">
+
+            <strong>
+              ${escapeHtml(
+                lesson.start || "—"
+              )}
+            </strong>
+
+            <span>
+              ${escapeHtml(
+                lesson.end || "—"
+              )}
+            </span>
+
+          </div>
+
+
+          <div class="lesson-info">
+
+            <div class="lesson-topline">
+
+              <h3 class="lesson-title">
+                ${escapeHtml(
+                  lesson.subject ||
+                  `Урок ${index + 1}`
+                )}
+              </h3>
+
+              ${
+                isCurrent
+                  ? '<span class="current-pill">Сейчас</span>'
+                  : ""
+              }
+
+            </div>
+
+
+            ${
+              lesson.note
+
+                ? `<p class="lesson-note">
+                    ${escapeHtml(
+                      lesson.note
+                    )}
+                   </p>`
+
+                : `<p class="lesson-note">
+                    ${escapeHtml(
+                      range
+                    )}
+                   </p>`
+            }
+
+          </div>
+
+        `;
+
+
+        scheduleList.appendChild(
+          card
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =========================================================
+     ПЕРЕКЛЮЧЕНИЕ ДНЕЙ
+  ========================================================= */
+
+  function renderDaySwitcher(
+    todayKey = currentDayKey()
+  ) {
+
+    const wrap =
+      $("#day-switcher");
+
+
+    if (!wrap) {
+      return;
+    }
+
+
+    wrap.innerHTML = "";
+
+
+    weekdays.forEach(day => {
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.type = "button";
+
+
+      button.className =
+        `day-switch${
+          day.key ===
+          state.selectedDay
+            ? " active"
+            : ""
+        }${
+          day.key === todayKey
+            ? " today"
+            : ""
+        }`;
+
+
+      button.textContent =
+        day.short;
+
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          state.selectedDay =
+            day.key;
+
+          renderSchedule();
+
+        }
+      );
+
+
+      wrap.appendChild(
+        button
+      );
+
+    });
+
+  }
+
+
+  /* =========================================================
+     ДОМАШНЕЕ ЗАДАНИЕ
+  ========================================================= */
+
+  function renderHomework() {
+
+    const key =
+      weekKeyByOffset(0);
+
+
+    ensureHomeworkWeek(
+      key
+    );
+
+
+    const wrap =
+      $("#homework-list");
+
+
+    wrap.innerHTML = "";
+
+
+    weekdays.forEach(day => {
+
+      const card =
+        document.createElement(
+          "section"
+        );
+
+
+      card.className =
+        "homework-day-card";
+
+
+      card.innerHTML = `
+
+        <h3>
+          ${day.full}
+        </h3>
+
+        <textarea
+          class="homework-input"
+          data-homework-day="${day.key}"
+          maxlength="2000"
+          placeholder="Введите домашнее задание…"
+        >${escapeHtml(
+          state.data.homework[
+            key
+          ][day.key]
+        )}</textarea>
+
+      `;
+
+
+      wrap.appendChild(
+        card
+      );
+
+    });
+
+  }
+
+
+  function saveHomework() {
+
+    const key =
+      weekKeyByOffset(0);
+
+
+    ensureHomeworkWeek(
+      key
+    );
+
+
+    $$(".homework-input")
+      .forEach(input => {
+
+        state.data.homework[
+          key
+        ][
+          Number(
+            input.dataset.homeworkDay
+          )
+        ] =
+          input.value.trim();
+
+      });
+
+
+    saveData();
+
+
+    setText(
+      "homework-status",
+      "Сохранено"
+    );
+
+
+    setTimeout(
+      () => {
+
+        setText(
+          "homework-status",
+          "Сохраняется на устройстве"
+        );
+
+      },
+      1600
+    );
+
+  }
+
+
+  /* =========================================================
+     НАСТРОЙКИ
+  ========================================================= */
+
+  function weekKeyForSettings() {
+
+    return state.settingsWeek === "next"
+
+      ? weekKeyByOffset(1)
+
+      : weekKeyByOffset(0);
+
+  }
+
+
+  function renderSettings() {
+
+    const key =
+      weekKeyForSettings();
+
+
+    ensureWeek(key);
+
+
+    setText(
+      "settings-week-title",
+      state.settingsWeek === "next"
+        ? "Следующая неделя"
+        : "Текущая неделя"
+    );
+
+
+    $$(".segment")
+      .forEach(button => {
+
+        const active =
+          button.dataset.week ===
+          state.settingsWeek;
+
+
+        button.classList.toggle(
+          "active",
+          active
+        );
+
+
+        button.setAttribute(
+          "aria-selected",
+          active
+            ? "true"
+            : "false"
+        );
+
+      });
+
+
+    $("#setup-help")
+      .classList.toggle(
+        "hidden",
+        isConfigured() ||
+        state.settingsWeek === "next"
+      );
+
+
+    const container =
+      $("#settings-days");
+
+
+    container.innerHTML = "";
+
+
+    const week =
+      state.data.weeks[key];
+
+
+    weekdays.forEach(day => {
+
+      const panel =
+        document.createElement(
+          "section"
+        );
+
+
+      panel.className =
+        "day-panel";
+
+
+      const count =
+        (week[day.key] || [])
+          .length;
+
+
+      panel.innerHTML = `
+
+        <div class="day-panel-head">
+
+          <div>
+
+            <h3>
+              ${day.full}
+            </h3>
+
+            <span>
+              ${day.short}
+            </span>
+
+          </div>
+
+          <span>
+            ${count}
+            ${
+              count === 1
+                ? "урок"
+                : "урока"
+            }
+          </span>
+
+        </div>
+
+
+        <div
+          class="lesson-editor-list"
+          data-day="${day.key}"
+        ></div>
+
+
+        <button
+          type="button"
+          class="add-lesson"
+          data-add-day="${day.key}"
+        >
+          + Добавить урок
+        </button>
+
+      `;
+
+
+      const list =
+        $(".lesson-editor-list", panel);
+
+
+      (week[day.key] || [])
+        .forEach(
+          (lesson, index) => {
+
+            list.appendChild(
+              createEditorRow(
+                lesson,
+                index
+              )
+            );
+
+          }
+        );
+
+
+      container.appendChild(
+        panel
+      );
+
+    });
+
+  }
+
+
+  /* =========================================================
+     РЕДАКТОР УРОКА
+  ========================================================= */
+
+  function createEditorRow(
+    lesson,
+    index
+  ) {
+
+    const item =
+      normalizedLesson(
+        lesson
+      );
+
+
+    const row =
+      document.createElement(
+        "div"
+      );
+
+
+    row.className =
+      "editor-row";
+
+
+    row.innerHTML = `
+
+      <div class="row-number">
+        ${index + 1}
+      </div>
+
+
+      <div class="field subject-wrap">
+
+        <label>
+          Предмет
+        </label>
+
+        <input
+          class="input subject-input"
+          type="text"
+          maxlength="60"
+          placeholder="Математика"
+          value="${escapeAttr(
+            item.subject
+          )}"
+          autocomplete="off"
+        >
+
+      </div>
+
+
+      <div class="field time-wrap">
+
+        <label>
+          Начало
+        </label>
+
+        <input
+          class="input start-input"
+          type="time"
+          value="${escapeAttr(
+            item.start
+          )}"
+        >
+
+      </div>
+
+
+      <div class="field end-wrap">
+
+        <label>
+          Конец
+        </label>
+
+        <input
+          class="input end-input"
+          type="time"
+          value="${escapeAttr(
+            item.end
+          )}"
+        >
+
+      </div>
+
+
+      <div class="delete-wrap">
+
+        <button
+          class="icon-button delete-lesson"
+          type="button"
+          aria-label="Удалить урок"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="field note-wrap">
+
+        <label>
+          Краткая заметка
+        </label>
+
+        <textarea
+          class="note-input"
+          maxlength="180"
+          placeholder="Домашнее задание, кабинет, напоминание…"
+        >${escapeHtml(
+          item.note
+        )}</textarea>
+
+      </div>
+
+    `;
+
+
+    row
+      .querySelector(
+        ".delete-lesson"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          row.remove();
+
+          renumberRows();
+
+          updateLessonCount(
+            row.closest(
+              ".day-panel"
+            )
+          );
+
+        }
+      );
+
+
+    return row;
+
+  }
+
+
+  /* =========================================================
+     СОБОР ФОРМЫ
+  ========================================================= */
+
+  function collectSettingsForm() {
+
+    const key =
+      weekKeyForSettings();
+
+
+    ensureWeek(key);
+
+
+    const result =
+      emptySchedule();
+
+
+    $$(".day-panel")
+      .forEach(panel => {
+
+        const dayKey =
+          Number(
+            $(
+              ".lesson-editor-list",
+              panel
+            ).dataset.day
+          );
+
+
+        const rows =
+          $$(".editor-row", panel);
+
+
+        result[dayKey] =
+          rows
+
+            .map(row =>
+              normalizedLesson({
+
+                subject:
+                  $(".subject-input", row)
+                    .value,
+
+                start:
+                  $(".start-input", row)
+                    .value,
+
+                end:
+                  $(".end-input", row)
+                    .value,
+
+                note:
+                  $(".note-input", row)
+                    .value
+
+              })
+            )
+
+            .filter(lesson =>
+              lesson.subject ||
+              lesson.start ||
+              lesson.end ||
+              lesson.note
+            );
+
+      });
+
+
+    return result;
+
+  }
+
+
+  /* =========================================================
+     СОХРАНЕНИЕ НАСТРОЕК
+  ========================================================= */
+
+  function saveSettings() {
+
+    const key =
+      weekKeyForSettings();
+
+
+    state.data.weeks[key] =
+      collectSettingsForm();
+
+
+    state.data.lastActiveWeek =
+      isoWeekKey(
+        new Date()
+      );
+
+
+    saveData();
+
+
+    setText(
+      "save-status",
+      "Сохранено"
+    );
+
+
+    setTimeout(
+      () => {
+
+        setText(
+          "save-status",
+          "Готово"
+        );
+
+      },
+      1600
+    );
+
+
+    renderSchedule();
+
+    renderSettings();
+
+  }
+
+
+  /* =========================================================
+     СТРОКИ РЕДАКТОРА
+  ========================================================= */
+
+  function renumberRows() {
+
+    $$(".day-panel")
+      .forEach(panel => {
+
+        $$(".row-number", panel)
+          .forEach(
+            (node, index) => {
+
+              node.textContent =
+                index + 1;
+
+            }
+          );
+
+      });
+
+  }
+
+
+  function updateLessonCount(
+    panel
+  ) {
+
+    if (!panel) {
+      return;
+    }
+
+
+    const count =
+      $$(".editor-row", panel)
+        .length;
+
+
+    const label =
+      $(".day-panel-head span", panel);
+
+
+    label.textContent =
+      `${count} ${
+        count === 1
+          ? "урок"
+          : "урока"
+      }`;
+
+  }
+
+
+  function addLesson(dayKey) {
+
+    const panel =
+      $(
+        `.day-panel .lesson-editor-list[data-day="${dayKey}"]`
+      )?.closest(
+        ".day-panel"
+      );
+
+
+    if (!panel) {
+      return;
+    }
+
+
+    const list =
+      $(".lesson-editor-list", panel);
+
+
+    const row =
+      createEditorRow(
+        {
+          subject: "",
+          start: "",
+          end: "",
+          note: ""
+        },
+        list.children.length
+      );
+
+
+    list.appendChild(
+      row
+    );
+
+
+    renumberRows();
+
+
+    updateLessonCount(
+      panel
+    );
+
+
+    const input =
+      $(".subject-input", row);
+
+
+    input?.focus();
+
+  }
+
+
+  /* =========================================================
+     КОПИРОВАНИЕ НЕДЕЛИ
+  ========================================================= */
+
+  function copyCurrentToNext() {
+
+    const currentKey =
+      weekKeyByOffset(0);
+
+
+    const nextKey =
+      weekKeyByOffset(1);
+
+
+    ensureWeek(
+      currentKey
+    );
+
+
+    state.data.weeks[nextKey] =
+      clone(
+        state.data.weeks[currentKey]
+      );
+
+
+    ensureHomeworkWeek(
+      currentKey
+    );
+
+
+    ensureHomeworkWeek(
+      nextKey
+    );
+
+
+    state.data.homework[nextKey] =
+      clone(
+        state.data.homework[currentKey]
+      );
+
+
+    saveData();
+
+
+    state.settingsWeek =
+      "next";
+
+
+    renderSettings();
+
+
+    setText(
+      "save-status",
+      "Скопировано"
+    );
+
+
+    setTimeout(
+      () => {
+
+        setText(
+          "save-status",
+          "Готово"
+        );
+
+      },
+      1600
+    );
+
+  }
+
+
+  /* =========================================================
+     ОЧИСТКА НЕДЕЛИ
+  ========================================================= */
+
+  function clearSelectedWeek() {
+
+    const label =
+      state.settingsWeek === "next"
+        ? "следующую"
+        : "текущую";
+
+
+    if (
+      !window.confirm(
+        `Очистить ${label} неделю?`
+      )
+    ) {
+      return;
+    }
+
+
+    state.data.weeks[
+      weekKeyForSettings()
+    ] =
+      emptySchedule();
+
+
+    saveData();
+
+
+    renderSettings();
+
+    renderSchedule();
+
+  }
+
+
+  /* =========================================================
+     ПОЛНЫЙ СБРОС
+  ========================================================= */
+
+  function resetAll() {
+
+    if (
+      !window.confirm(
+        "Удалить всё сохранённое расписание на этом устройстве?"
+      )
+    ) {
+      return;
+    }
+
+
+    localStorage.removeItem(
+      STORAGE_KEY
+    );
+
+
+    state.data =
+      baseData();
+
+
+    state.settingsWeek =
+      "current";
+
+
+    renderSchedule();
+
+    renderSettings();
+
+    switchView(
+      "settings-view"
+    );
+
+  }
+
+
+  /* =========================================================
+     ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ
+  ========================================================= */
+
+  function switchView(
+    viewId
+  ) {
+
+    state.activeView =
+      viewId;
+
+
+    $$(".view")
+      .forEach(view => {
+
+        view.classList.toggle(
+          "active",
+          view.id === viewId
+        );
+
+      });
+
+
+    $$(".tab")
+      .forEach(tab => {
+
+        tab.classList.toggle(
+          "active",
+          tab.dataset.view === viewId
+        );
+
+      });
+
+
+    if (
+      viewId ===
+      "settings-view"
+    ) {
+      renderSettings();
+    }
+
+
+    if (
+      viewId ===
+      "schedule-view"
+    ) {
+      renderSchedule();
+    }
+
+
+    if (
+      viewId ===
+      "homework-view"
+    ) {
+      renderHomework();
+    }
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
+
+  /* =========================================================
+     АВТОМАТИЧЕСКАЯ СМЕНА ДНЯ
+  ========================================================= */
 
   function handleDateRollovers() {
-    let lastDateKey = new Date().toDateString();
+
+    let lastDateKey =
+      new Date().toDateString();
+
+
     return () => {
-      const current = new Date().toDateString();
-      if (current !== lastDateKey) {
-        lastDateKey = current;
-        ensureWeek(weekKeyByOffset(0));
-        ensureWeek(weekKeyByOffset(1));
-        state.data.lastActiveWeek = isoWeekKey(new Date());
+
+      const current =
+        new Date().toDateString();
+
+
+      if (
+        current !== lastDateKey
+      ) {
+
+        lastDateKey =
+          current;
+
+
+        ensureWeek(
+          weekKeyByOffset(0)
+        );
+
+
+        ensureWeek(
+          weekKeyByOffset(1)
+        );
+
+
+        ensureHomeworkWeek(
+          weekKeyByOffset(0)
+        );
+
+
+        ensureHomeworkWeek(
+          weekKeyByOffset(1)
+        );
+
+
+        state.data.lastActiveWeek =
+          isoWeekKey(
+            new Date()
+          );
+
+
         saveData();
-        if (state.settingsWeek !== "current" && !isWeekVisible()) {
-          state.settingsWeek = "current";
-        }
+
+
+        state.selectedDay =
+          currentDayKey(
+            new Date()
+          ) <= 5
+
+            ? currentDayKey(
+                new Date()
+              )
+
+            : 1;
+
+
+        state.settingsWeek =
+          "current";
+
+
         renderSchedule();
+
         renderSettings();
+
+        renderHomework();
+
       }
+
     };
+
   }
 
-  function isWeekVisible() {
-    return state.settingsWeek === "next";
-  }
 
-  document.addEventListener("click", event => {
-    const tab = event.target.closest(".tab");
-    if (tab) {
-      switchView(tab.dataset.view);
-      return;
-    }
-    const segment = event.target.closest(".segment");
-    if (segment) {
-      state.settingsWeek = segment.dataset.week;
-      renderSettings();
-      return;
-    }
-    const addButton = event.target.closest("[data-add-day]");
-    if (addButton) {
-      addLesson(Number(addButton.dataset.addDay));
-    }
-  });
+  /* =========================================================
+     НАВИГАЦИЯ
+  ========================================================= */
 
-  $("#save-settings").addEventListener("click", saveSettings);
-  $("#copy-to-next").addEventListener("click", copyCurrentToNext);
-  $("#clear-week").addEventListener("click", clearSelectedWeek);
-  $("#reset-app").addEventListener("click", resetAll);
-  $("#open-settings-from-banner").addEventListener("click", () => switchView("settings-view"));
+  document.addEventListener(
+    "click",
+    event => {
 
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) {
+      const tab =
+        event.target.closest(
+          ".tab"
+        );
+
+
+      if (tab) {
+
+        switchView(
+          tab.dataset.view
+        );
+
+        return;
+
+      }
+
+
+      const segment =
+        event.target.closest(
+          ".segment"
+        );
+
+
+      if (segment) {
+
+        state.settingsWeek =
+          segment.dataset.week;
+
+
+        renderSettings();
+
+        return;
+
+      }
+
+
+      const addButton =
+        event.target.closest(
+          "[data-add-day]"
+        );
+
+
+      if (addButton) {
+
+        addLesson(
+          Number(
+            addButton.dataset.addDay
+          )
+        );
+
+      }
+
+    }
+  );
+
+
+  /* =========================================================
+     КНОПКИ
+  ========================================================= */
+
+  $("#save-settings")
+    .addEventListener(
+      "click",
+      saveSettings
+    );
+
+
+  $("#save-homework")
+    .addEventListener(
+      "click",
+      saveHomework
+    );
+
+
+  $("#copy-to-next")
+    .addEventListener(
+      "click",
+      copyCurrentToNext
+    );
+
+
+  $("#clear-week")
+    .addEventListener(
+      "click",
+      clearSelectedWeek
+    );
+
+
+  $("#reset-app")
+    .addEventListener(
+      "click",
+      resetAll
+    );
+
+
+  $("#open-settings-from-banner")
+    .addEventListener(
+      "click",
+      () =>
+        switchView(
+          "settings-view"
+        )
+    );
+
+
+  /* =========================================================
+     VISIBILITY
+  ========================================================= */
+
+  document.addEventListener(
+    "visibilitychange",
+    () => {
+
+      if (!document.hidden) {
+
+        refreshClock();
+
+        handleRollover();
+
+      }
+
+    }
+  );
+
+
+  /* =========================================================
+     ЗАПУСК
+  ========================================================= */
+
+  const handleRollover =
+    handleDateRollovers();
+
+
+  setInterval(
+    () => {
+
       refreshClock();
+
       handleRollover();
-    }
-  });
 
-  const handleRollover = handleDateRollovers();
-  setInterval(() => {
-    refreshClock();
-    handleRollover();
-  }, 1000);
+    },
+    1000
+  );
 
-  // Initial render. On a first launch, open settings so the five workdays are entered immediately.
+
+  /* =========================================================
+     ПЕРВИЧНЫЙ РЕНДЕР
+  ========================================================= */
+
+  state.selectedDay =
+    currentDayKey(
+      new Date()
+    ) <= 5
+
+      ? currentDayKey(
+          new Date()
+        )
+
+      : 1;
+
+
   renderSettings();
+
   renderSchedule();
+
+  renderHomework();
+
   refreshClock();
-  if (!isConfigured()) switchView("settings-view");
 
-  // App logic is embedded above. The service worker is also embedded so no sw.js file is needed.
-  if ("serviceWorker" in navigator && window.isSecureContext) {
-    window.addEventListener("load", () => {
-      const workerSource = `
-        const CACHE = "ios-school-schedule-v1";
-        const APP_SHELL = [self.location.href];
-        self.addEventListener("install", event => {
-          event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(APP_SHELL)).then(() => self.skipWaiting()));
-        });
-        self.addEventListener("activate", event => {
-          event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim()));
-        });
-        self.addEventListener("fetch", event => {
-          if (event.request.method !== "GET") return;
-          event.respondWith(caches.match(event.request).then(cached => cached || fetch(event.request).then(response => {
-            const copy = response.clone();
-            caches.open(CACHE).then(cache => cache.put(event.request, copy));
-            return response;
-          }).catch(() => caches.match(event.request))));
-        });
-      `;
-      try {
-        const blob = new Blob([workerSource], { type: "text/javascript" });
-        const workerUrl = URL.createObjectURL(blob);
-        navigator.serviceWorker.register(workerUrl).catch(() => {});
-      } catch (_) {}
-    });
+
+  if (!isConfigured()) {
+
+    switchView(
+      "settings-view"
+    );
+
   }
-})();
 
-  </script>
+
+  /* =========================================================
+     SERVICE WORKER
+  ========================================================= */
+
+  if (
+    "serviceWorker" in navigator &&
+    window.isSecureContext
+  ) {
+
+    window.addEventListener(
+      "load",
+      () => {
+
+        const workerSource = `
+
+          const CACHE =
+            "ios-school-schedule-v1";
+
+          const APP_SHELL =
+            [self.location.href];
+
+
+          self.addEventListener(
+            "install",
+            event => {
+
+              event.waitUntil(
+
+                caches
+                  .open(CACHE)
+
+                  .then(
+                    cache =>
+                      cache.addAll(
+                        APP_SHELL
+                      )
+                  )
+
+                  .then(
+                    () =>
+                      self.skipWaiting()
+                  )
+
+              );
+
+            }
+          );
+
+
+          self.addEventListener(
+            "activate",
+            event => {
+
+              event.waitUntil(
+
+                caches.keys()
+
+                  .then(
+                    keys =>
+                      Promise.all(
+
+                        keys
+
+                          .filter(
+                            key =>
+                              key !== CACHE
+                          )
+
+                          .map(
+                            key =>
+                              caches.delete(
+                                key
+                              )
+                          )
+
+                      )
+                  )
+
+                  .then(
+                    () =>
+                      self.clients.claim()
+                  )
+
+              );
+
+            }
+          );
+
+
+          self.addEventListener(
+            "fetch",
+            event => {
+
+              if (
+                event.request.method !==
+                "GET"
+              ) {
+                return;
+              }
+
+
+              event.respondWith(
+
+                caches.match(
+                  event.request
+                )
+
+                .then(
+                  cached =>
+                    cached ||
+                    fetch(
+                      event.request
+                    )
+
+                    .then(
+                      response => {
+
+                        const copy =
+                          response.clone();
+
+
+                        caches
+                          .open(CACHE)
+
+                          .then(
+                            cache =>
+                              cache.put(
+                                event.request,
+                                copy
+                              )
+                          );
+
+
+                        return response;
+
+                      }
+                    )
+
+                    .catch(
+                      () =>
+                        caches.match(
+                          event.request
+                        )
+                    )
+                )
+
+              );
+
+            }
+          );
+
+        `;
+
+
+        try {
+
+          const blob =
+            new Blob(
+              [
+                workerSource
+              ],
+              {
+                type:
+                  "text/javascript"
+              }
+            );
+
+
+          const workerUrl =
+            URL.createObjectURL(
+              blob
+            );
+
+
+          navigator.serviceWorker
+            .register(
+              workerUrl
+            )
+            .catch(
+              () => {}
+            );
+
+        } catch (_) {}
+
+      }
+    );
+
+  }
+
+})();
+</script>
+
 </body>
 </html>
