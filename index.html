@@ -138,11 +138,25 @@ main { width: 100%; }
 .day-switch { flex: 0 0 auto; min-width: 52px; height: 36px; padding: 0 13px; border-radius: 999px; background: var(--soft); color: var(--muted); border: 1px solid var(--border); font-size: 11px; font-weight: 750; cursor: pointer; }
 .day-switch.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 .day-switch.today:not(.active) { border-color: #999; color: var(--text); }
-.homework-list { display: grid; gap: 10px; }
+.homework-list { display: grid; gap: 10px; margin-top: 12px; }
 .homework-day-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; }
 .homework-day-card h3 { margin: 0 0 10px; font-size: 15px; }
-.homework-input { width: 100%; min-height: 110px; resize: vertical; border: 1px solid #dadbd9; outline: none; background: #fff; color: var(--text); border-radius: 13px; padding: 11px; font-size: 13px; line-height: 1.5; }
+.homework-add-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; box-shadow: 0 8px 24px rgba(0,0,0,.03); }
+.homework-add-title { font-size: 15px; font-weight: 800; margin-bottom: 14px; }
+.homework-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.homework-text-field { margin-top: 10px; }
+.homework-input { width: 100%; min-height: 96px; resize: vertical; border: 1px solid #dadbd9; outline: none; background: #fff; color: var(--text); border-radius: 13px; padding: 11px; font-size: 13px; line-height: 1.5; }
 .homework-input:focus { border-color: #111315; box-shadow: 0 0 0 3px rgba(17,19,21,.08); }
+.homework-entry { position: relative; padding: 12px 42px 12px 13px; border: 1px solid var(--border); border-radius: 15px; background: rgba(255,255,255,.78); }
+.homework-entry-meta { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; font-size: 11px; font-weight: 750; color: var(--muted); }
+.homework-entry-subject { color: var(--text); }
+.homework-entry-text { margin: 0; font-size: 13px; line-height: 1.45; white-space: pre-wrap; }
+.homework-delete { position: absolute; right: 10px; top: 10px; width: 28px; height: 28px; border: 0; border-radius: 50%; background: var(--soft); color: var(--muted); cursor: pointer; font-size: 17px; }
+.homework-empty { color: var(--muted); font-size: 12px; padding: 8px 2px; }
+.lesson-homework { margin: 9px 0 0 0; padding: 9px 12px; border-radius: 13px; background: rgba(17,19,21,.045); border: 1px solid rgba(17,19,21,.07); }
+.lesson-homework-label { font-size: 10px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.lesson-homework-text { margin: 0; font-size: 12px; line-height: 1.45; white-space: pre-wrap; }
+@media (max-width: 560px) { .homework-form-grid { grid-template-columns: 1fr; } }
 .day-badge {
   display: inline-flex;
   align-items: center;
@@ -162,21 +176,24 @@ main { width: 100%; }
 .lesson-card {
   position: relative;
   display: grid;
-  grid-template-columns: 78px 1fr;
-  gap: 16px;
+  grid-template-columns: 1fr;
+  gap: 12px;
   align-items: stretch;
   padding: 16px;
   background: var(--surface);
   border: 1px solid rgba(222,223,221,.88);
   border-radius: var(--radius-lg);
-  box-shadow: 0 8px 24px rgba(17,19,21,.04);
-  backdrop-filter: blur(14px);
+  box-shadow: 0 10px 30px rgba(17,19,21,.06), inset 0 1px 0 rgba(255,255,255,.62);
+  backdrop-filter: blur(22px) saturate(125%);
+  -webkit-backdrop-filter: blur(22px) saturate(125%);
   transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
 }
 .lesson-card.current {
   border-color: #1b1d1f;
   box-shadow: 0 12px 28px rgba(17,19,21,.11);
-  background: #fff;
+  background: rgba(255,255,255,.88);
+  backdrop-filter: blur(24px) saturate(130%);
+  -webkit-backdrop-filter: blur(24px) saturate(130%);
 }
 .lesson-card.past { opacity: .56; }
 .lesson-time {
@@ -197,11 +214,13 @@ main { width: 100%; }
 .lesson-topline { display:flex; justify-content:space-between; align-items:center; gap:12px; }
 .lesson-title {
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.2;
   font-weight: 750;
   letter-spacing: -.02em;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .current-pill {
   flex: 0 0 auto;
@@ -429,6 +448,12 @@ main { width: 100%; }
   .topbar { padding-left: 16px; padding-right: 16px; }
   .view { padding-left: 16px; padding-right: 16px; }
   .topbar h1 { font-size: 28px; }
+  .lesson-card { padding: 12px; gap: 9px; border-radius: 20px; }
+  .lesson-title { font-size: 15px; }
+  .lesson-note { font-size: 11px; }
+  .lesson-homework { margin-top: 7px; padding: 8px 10px; border-radius: 12px; }
+  .lesson-homework-text { font-size: 11px; }
+  .current-pill { font-size: 8px; padding: 4px 7px; }
   .notice { align-items: flex-start; }
   .schedule-header { padding-top: 4px; }
   .editor-row { grid-template-columns: 36px minmax(0,1fr) 1fr 36px; }
@@ -438,6 +463,16 @@ main { width: 100%; }
   .delete-wrap { grid-column: 4 / 5; grid-row: 1; }
   .note-wrap { grid-column: 2 / 5; }
   .settings-footer { flex-direction: column; }
+}
+
+@media (min-width: 761px) {
+  .lesson-card { padding: 20px; border-radius: 24px; }
+  .lesson-title { font-size: 21px; }
+  .lesson-note { font-size: 14px; }
+  .lesson-homework { padding: 11px 14px; border-radius: 15px; }
+  .lesson-homework-label { font-size: 11px; }
+  .lesson-homework-text { font-size: 14px; }
+  .current-pill { font-size: 10px; padding: 6px 9px; }
 }
 
 @media (min-width: 760px) {
@@ -457,6 +492,9 @@ main { width: 100%; }
   .tab { height: 44px; border-radius: 999px; }
 }
 
+/* Settings UI removed from the main interface; keep data logic intact. */
+#settings-view { display: none !important; }
+#open-settings-from-banner { display: none !important; }
   </style>
   <title>Расписание</title>
 </head>
@@ -512,11 +550,26 @@ main { width: 100%; }
         <div class="settings-head">
           <div><span class="muted-label">ЗАДАНИЯ</span><h2>Домашнее задание</h2></div>
         </div>
-        <div id="homework-list" class="homework-list"></div>
-        <div class="save-row">
-          <span id="homework-status" class="save-status">Сохраняется на устройстве</span>
-          <button id="save-homework" class="button button-dark large">Сохранить</button>
+        <div class="homework-add-card">
+          <div class="homework-add-title">Добавить Д/З</div>
+          <div class="homework-form-grid">
+            <div class="field">
+              <label>Когда</label>
+              <input id="homework-date" class="input" type="date">
+            </div>
+            <div class="field">
+              <label>Урок</label>
+              <select id="homework-lesson" class="input"></select>
+            </div>
+          </div>
+          <div class="field homework-text-field">
+            <label>Что задали</label>
+            <textarea id="homework-text" class="homework-input" maxlength="2000" placeholder="Например: упражнения 5–8, подготовить параграф 12…"></textarea>
+          </div>
+          <button id="save-homework" class="button button-dark large">Добавить Д/З</button>
+          <div id="homework-status" class="save-status">Данные сохраняются на устройстве</div>
         </div>
+        <div id="homework-list" class="homework-list"></div>
       </section>
 
       <section id="settings-view" class="view" aria-label="Настройки расписания">
@@ -565,10 +618,6 @@ main { width: 100%; }
       <button class="tab" data-view="homework-view" aria-label="Домашнее задание">
         <span class="tab-icon">□</span><span>Д/з</span>
       </button>
-      <button class="tab" data-view="settings-view" aria-label="Настройки">
-        <span class="tab-icon">☰</span>
-        <span>Настройки</span>
-      </button>
     </nav>
   </div>
   <script>
@@ -583,6 +632,37 @@ main { width: 100%; }
     { key: 4, short: "Чт", full: "Четверг" },
     { key: 5, short: "Пт", full: "Пятница" }
   ];
+
+  // Расписание звонков
+  const BELLS_MON = [["07:55","08:25"],["08:30","09:10"],["09:25","10:05"],["10:10","10:50"],["11:05","11:45"],["11:50","12:30"],["12:35","13:15"]];
+  const BELLS_TUE_FRI = [["08:00","08:40"],["08:45","09:25"],["09:40","10:20"],["10:25","11:05"],["11:20","12:00"],["12:05","12:45"],["12:50","13:30"]];
+  // Расписание уроков (1 = Пн ... 5 = Пт)
+  const DEFAULT_SUBJECTS = {
+    1: ["Классный час","Английский / Информатика","Английский / Информатика","Русский язык","Алгебра","Английский","Всемирная история"],
+    2: ["Геометрия","Основы бизнеса","Казахский язык и литература","Русская литература","Физика","НВП"],
+    3: ["География","Всемирная история","Алгебра","Русский язык","Физкультура","Казахский язык и литература"],
+    4: ["Физика","Английский","Казахский язык и литература","Русская литература","История Казахстана","Физкультура (В)","Личная безопасность"],
+    5: ["Физкультура","География","Основы бизнеса","История Казахстана","Алгебра","Английский"]
+  };
+
+  function defaultSchedule() {
+    const result = {};
+    [1, 2, 3, 4, 5].forEach(day => {
+      const bells = day === 1 ? BELLS_MON : BELLS_TUE_FRI;
+      result[day] = DEFAULT_SUBJECTS[day].map((subject, i) => ({ subject, start: bells[i][0], end: bells[i][1], note: "" }));
+    });
+    return result;
+  }
+
+  // Заполняет неделю расписанием по умолчанию один раз, если она пустая
+  function seedWeek(key, target) {
+    target.seeded = target.seeded || {};
+    if (target.seeded[key]) return;
+    target.seeded[key] = true;
+    const week = target.weeks[key];
+    const isEmpty = [1, 2, 3, 4, 5].every(d => !(week[d] || []).length);
+    if (isEmpty) target.weeks[key] = defaultSchedule();
+  }
 
   const state = {
     activeView: "schedule-view",
@@ -601,7 +681,7 @@ main { width: 100%; }
   }
 
   function emptyHomework() {
-    return weekdays.reduce((acc, day) => { acc[day.key] = ""; return acc; }, {});
+    return [];
   }
 
   function clone(value) {
@@ -624,7 +704,7 @@ main { width: 100%; }
   }
 
   function baseData() {
-    return {
+    const data = {
       weeks: {
         [weekKeyByOffset(0)]: emptySchedule(),
         [weekKeyByOffset(1)]: emptySchedule()
@@ -635,6 +715,9 @@ main { width: 100%; }
       },
       lastActiveWeek: weekKeyByOffset(0)
     };
+    ensureWeek(weekKeyByOffset(0), data);
+    ensureWeek(weekKeyByOffset(1), data);
+    return data;
   }
 
   function loadData() {
@@ -707,11 +790,22 @@ main { width: 100%; }
     weekdays.forEach(day => {
       if (!Array.isArray(target.weeks[key][day.key])) target.weeks[key][day.key] = [];
     });
+    seedWeek(key, target);
   }
 
   function ensureHomeworkWeek(key, target = state.data) {
-    if (!target.homework[key]) target.homework[key] = emptyHomework();
-    weekdays.forEach(day => { if (typeof target.homework[key][day.key] !== "string") target.homework[key][day.key] = ""; });
+    if (!Array.isArray(target.homework[key])) {
+      const legacy = target.homework[key];
+      const migrated = [];
+      if (legacy && typeof legacy === "object") {
+        weekdays.forEach(day => {
+          const text = typeof legacy[day.key] === "string" ? legacy[day.key].trim() : "";
+          if (text) migrated.push({ id: `${key}-${day.key}-legacy`, date: "", day: day.key, lessonIndex: 0, text });
+        });
+      }
+      target.homework[key] = migrated;
+    }
+    target.homework[key] = target.homework[key].filter(item => item && typeof item === "object" && String(item.text || "").trim());
   }
 
   function saveData() {
@@ -790,6 +884,65 @@ main { width: 100%; }
     renderSchedule();
   }
 
+  function dateForDay(dayKey, reference = new Date()) {
+    const d = new Date(reference);
+    const current = currentDayKey(d);
+    d.setDate(d.getDate() + (dayKey - current));
+    return d;
+  }
+
+  function dateInputValue(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  }
+
+  function dateFromInput(value) {
+    const [y, m, d] = String(value || "").split("-").map(Number);
+    if (!y || !m || !d) return null;
+    const date = new Date(y, m - 1, d);
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  function homeworkForDate(dateValue) {
+    const date = dateFromInput(dateValue);
+    if (!date) return [];
+    const key = isoWeekKey(date);
+    ensureHomeworkWeek(key);
+    return state.data.homework[key];
+  }
+
+  function lessonLabel(date, lessonIndex) {
+    const week = state.data.weeks[isoWeekKey(date)] || emptySchedule();
+    const lessons = sortLessons(week[currentDayKey(date)] || []);
+    const lesson = lessons[lessonIndex];
+    return lesson?.subject || `Урок ${Number(lessonIndex) + 1}`;
+  }
+
+  function refreshHomeworkLessonOptions() {
+    const dateInput = $("#homework-date");
+    const select = $("#homework-lesson");
+    if (!dateInput || !select) return;
+    const date = dateFromInput(dateInput.value) || new Date();
+    const dayKey = currentDayKey(date);
+    const week = state.data.weeks[isoWeekKey(date)] || emptySchedule();
+    const lessons = sortLessons(week[dayKey] || []);
+    select.innerHTML = "";
+    if (dayKey > 5 || !lessons.length) {
+      select.innerHTML = `<option value="">Нет уроков на этот день</option>`;
+      select.disabled = true;
+      return;
+    }
+    select.disabled = false;
+    lessons.forEach((lesson, index) => {
+      const option = document.createElement("option");
+      option.value = String(index);
+      option.textContent = `${index + 1}. ${lesson.subject || "Без названия"}`;
+      select.appendChild(option);
+    });
+  }
+
   function renderSchedule() {
     const now = new Date();
     const dayKey = state.selectedDay || currentDayKey(now);
@@ -834,17 +987,17 @@ main { width: 100%; }
       const card = document.createElement("article");
       card.className = `lesson-card${isCurrent ? " current" : ""}${isPast ? " past" : ""}`;
       const range = lesson.start && lesson.end ? `${lesson.start}–${lesson.end}` : lesson.start || lesson.end || "Время не задано";
+      const dateValue = dateInputValue(dateForDay(dayKey, now));
+      const homework = homeworkForDate(dateValue).filter(item => Number(item.lessonIndex) === index);
+      const homeworkHtml = homework.map(item => `<div class="lesson-homework"><div class="lesson-homework-label">Домашнее задание</div><p class="lesson-homework-text">${escapeHtml(item.text)}</p></div>`).join("");
       card.innerHTML = `
-        <div class="lesson-time">
-          <strong>${escapeHtml(lesson.start || "—")}</strong>
-          <span>${escapeHtml(lesson.end || "—")}</span>
-        </div>
         <div class="lesson-info">
           <div class="lesson-topline">
             <h3 class="lesson-title">${escapeHtml(lesson.subject || `Урок ${index + 1}`)}</h3>
             ${isCurrent ? '<span class="current-pill">Сейчас</span>' : ""}
           </div>
           ${lesson.note ? `<p class="lesson-note">${escapeHtml(lesson.note)}</p>` : `<p class="lesson-note">${escapeHtml(range)}</p>`}
+          ${homeworkHtml}
         </div>
       `;
       scheduleList.appendChild(card);
@@ -871,25 +1024,98 @@ main { width: 100%; }
   }
 
   function renderHomework() {
-    const key = weekKeyByOffset(0);
-    ensureHomeworkWeek(key);
+    const dateInput = $("#homework-date");
+    if (dateInput && !dateInput.value) dateInput.value = dateInputValue(new Date());
+    refreshHomeworkLessonOptions();
+
     const wrap = $("#homework-list");
+    if (!wrap) return;
     wrap.innerHTML = "";
-    weekdays.forEach(day => {
+
+    const entries = Object.entries(state.data.homework || {})
+      .flatMap(([weekKey, list]) => (Array.isArray(list) ? list : []).map(item => ({ ...item, weekKey })))
+      .filter(item => String(item.text || "").trim());
+
+    entries.sort((a, b) => {
+      const da = a.date || "9999-99-99";
+      const db = b.date || "9999-99-99";
+      if (da !== db) return da.localeCompare(db);
+      return Number(a.lessonIndex || 0) - Number(b.lessonIndex || 0);
+    });
+
+    if (!entries.length) {
+      wrap.innerHTML = `<div class="homework-empty">Пока нет добавленных заданий.</div>`;
+      return;
+    }
+
+    const groups = new Map();
+    entries.forEach(item => {
+      const key = item.date || item.weekKey;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(item);
+    });
+
+    groups.forEach((items, groupKey) => {
       const card = document.createElement("section");
       card.className = "homework-day-card";
-      card.innerHTML = `<h3>${day.full}</h3><textarea class="homework-input" data-homework-day="${day.key}" maxlength="2000" placeholder="Введите домашнее задание…">${escapeHtml(state.data.homework[key][day.key])}</textarea>`;
+      const date = dateFromInput(groupKey);
+      const title = date ? new Intl.DateTimeFormat("ru-RU", { weekday: "long", day: "numeric", month: "long" }).format(date) : "Без даты";
+      card.innerHTML = `<h3>${escapeHtml(title)}</h3>`;
+      items.forEach(item => {
+        const entry = document.createElement("div");
+        entry.className = "homework-entry";
+        const subject = date ? lessonLabel(date, item.lessonIndex) : `Урок ${Number(item.lessonIndex || 0) + 1}`;
+        entry.innerHTML = `<div class="homework-entry-meta"><span class="homework-entry-subject">${escapeHtml(subject)}</span></div><p class="homework-entry-text">${escapeHtml(item.text)}</p><button type="button" class="homework-delete" aria-label="Удалить Д/З">×</button>`;
+        entry.querySelector(".homework-delete").addEventListener("click", () => {
+          const list = state.data.homework[item.weekKey] || [];
+          state.data.homework[item.weekKey] = list.filter(candidate => candidate.id !== item.id);
+          saveData();
+          renderHomework();
+          renderSchedule();
+        });
+        card.appendChild(entry);
+      });
       wrap.appendChild(card);
     });
   }
 
   function saveHomework() {
-    const key = weekKeyByOffset(0);
+    const dateInput = $("#homework-date");
+    const lessonSelect = $("#homework-lesson");
+    const textInput = $("#homework-text");
+    const date = dateFromInput(dateInput?.value);
+    const lessonIndex = Number(lessonSelect?.value);
+    const text = String(textInput?.value || "").trim();
+
+    if (!date) {
+      setText("homework-status", "Выберите дату");
+      return;
+    }
+    if (currentDayKey(date) > 5 || !Number.isInteger(lessonIndex) || lessonSelect?.disabled) {
+      setText("homework-status", "На этот день нет уроков");
+      return;
+    }
+    if (!text) {
+      setText("homework-status", "Введите задание");
+      return;
+    }
+
+    const key = isoWeekKey(date);
+    ensureWeek(key);
     ensureHomeworkWeek(key);
-    $$(".homework-input").forEach(input => { state.data.homework[key][Number(input.dataset.homeworkDay)] = input.value.trim(); });
+    state.data.homework[key].push({
+      id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      date: dateInput.value,
+      day: currentDayKey(date),
+      lessonIndex,
+      text
+    });
     saveData();
-    setText("homework-status", "Сохранено");
-    setTimeout(() => setText("homework-status", "Сохраняется на устройстве"), 1600);
+    textInput.value = "";
+    setText("homework-status", "Д/З добавлено");
+    setTimeout(() => setText("homework-status", "Данные сохраняются на устройстве"), 1600);
+    renderHomework();
+    renderSchedule();
   }
 
   function weekKeyForSettings() {
@@ -970,38 +1196,14 @@ main { width: 100%; }
     ensureWeek(key);
     const result = emptySchedule();
     $$(".day-panel").forEach(panel => {
-      const dayKey = Number($(".lesson-editor-list", panel).dataset.day);
-      const rows = $$(".editor-row", panel);
+      const dayKey = Number($(".lesson-editor-list", panel).dataset.day);       const rows = $$(".editor-row", panel);
       result[dayKey] = rows.map(row => normalizedLesson({
         subject: $(".subject-input", row).value,
         start: $(".start-input", row).value,
         end: $(".end-input", row).value,
-        note: $(".note-input", row).value
-      })).filter(lesson => lesson.subject || lesson.start || lesson.end || lesson.note);
-    });
-    return result;
-  }
-
-  function saveSettings() {
-    const key = weekKeyForSettings();
-    state.data.weeks[key] = collectSettingsForm();
-    state.data.lastActiveWeek = isoWeekKey(new Date());
-    saveData();
-    setText("save-status", "Сохранено");
-    setTimeout(() => setText("save-status", "Готово"), 1600);
-    renderSchedule();
-    renderSettings();
-  }
-
-  function renumberRows() {
-    $$(".day-panel").forEach(panel => {
-      $$(".row-number", panel).forEach((node, index) => node.textContent = index + 1);
-    });
-  }
-
-  function updateLessonCount(panel) {
-    if (!panel) return;
-    const count = $$(".editor-row", panel).length;
+        note: $(".note-input", row).value       })).filter(lesson => lesson.subject \vert{}\vert{} lesson.start \vert{}\vert{} lesson.end \vert{}\vert{} lesson.note);     });     return result;   }    function saveSettings() {     const key = weekKeyForSettings();     state.data.weeks[key] = collectSettingsForm();     state.data.lastActiveWeek = isoWeekKey(new Date());     saveData();     setText("save-status", "Сохранено");     setTimeout(() => setText("save-status", "Готово"), 1600);     renderSchedule();     renderSettings();   }    function renumberRows() {     $$(".day-panel").forEach(panel => {
+      $$(".row-number", panel).forEach((node, index) => node.textContent = index + 1);     });   }    function updateLessonCount(panel) {     if (!panel) return;     const count = $$
+(".editor-row", panel).length;
     const label = $(".day-panel-head span", panel);
     label.textContent = `${count} ${count === 1 ? "урок" : "урока"}`;
   }
@@ -1025,7 +1227,20 @@ main { width: 100%; }
     state.data.weeks[nextKey] = clone(state.data.weeks[currentKey]);
     ensureHomeworkWeek(currentKey);
     ensureHomeworkWeek(nextKey);
-    state.data.homework[nextKey] = clone(state.data.homework[currentKey]);
+    const copiedHomework = state.data.homework[currentKey].map(item => {
+      const copied = clone(item);
+      if (copied.date) {
+        const sourceDate = dateFromInput(copied.date);
+        if (sourceDate) {
+          sourceDate.setDate(sourceDate.getDate() + 7);
+          copied.date = dateInputValue(sourceDate);
+          copied.day = currentDayKey(sourceDate);
+        }
+      }
+      copied.id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      return copied;
+    });
+    state.data.homework[nextKey] = copiedHomework;
     saveData();
     state.settingsWeek = "next";
     renderSettings();
@@ -1036,7 +1251,9 @@ main { width: 100%; }
   function clearSelectedWeek() {
     const label = state.settingsWeek === "next" ? "следующую" : "текущую";
     if (!window.confirm(`Очистить ${label} неделю?`)) return;
-    state.data.weeks[weekKeyForSettings()] = emptySchedule();
+    const selectedKey = weekKeyForSettings();
+    state.data.weeks[selectedKey] = emptySchedule();
+    state.data.homework[selectedKey] = emptyHomework();
     saveData();
     renderSettings();
     renderSchedule();
@@ -1064,8 +1281,8 @@ main { width: 100%; }
 
   function switchView(viewId) {
     state.activeView = viewId;
-    $$(".view").forEach(view => view.classList.toggle("active", view.id === viewId));
-    $$(".tab").forEach(tab => tab.classList.toggle("active", tab.dataset.view === viewId));
+    $$(".view").forEach(view => view.classList.toggle("active", view.id === viewId));     $$
+(".tab").forEach(tab => tab.classList.toggle("active", tab.dataset.view === viewId));
     if (viewId === "settings-view") renderSettings();
     if (viewId === "schedule-view") renderSchedule();
     if (viewId === "homework-view") renderHomework();
@@ -1128,6 +1345,7 @@ main { width: 100%; }
 
   $("#save-settings").addEventListener("click", saveSettings);
   $("#save-homework").addEventListener("click", saveHomework);
+  $("#homework-date").addEventListener("change", refreshHomeworkLessonOptions);
   $("#copy-to-next").addEventListener("click", copyCurrentToNext);
   $("#clear-week").addEventListener("click", clearSelectedWeek);
   $("#reset-app").addEventListener("click", resetAll);
@@ -1159,19 +1377,14 @@ main { width: 100%; }
     }
 
     state.selectedDay = currentDayKey(new Date()) <= 5 ? currentDayKey(new Date()) : 1;
-    renderSettings();
     renderSchedule();
     renderHomework();
     refreshClock();
-    if (!isConfigured()) switchView("settings-view");
+    switchView("schedule-view");
   }
 
   void initApp();
-
-  // Keep saved data in localStorage. A service worker is intentionally not
-  // registered from a Blob because iOS Home Screen apps reject that pattern.
 })();
-
   </script>
 </body>
 </html>
